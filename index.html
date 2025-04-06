@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📺 Nonton TV</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/859/859270.png" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    :root {
+      --bg: #111;
+      --text: #fff;
+      --item: #1e1e1e;
+      --hover: #333;
+    }
+
+    body.night {
+      --bg: #fff;
+      --text: #000;
+      --item: #f2f2f2;
+      --hover: #ddd;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--item);
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header img {
+      height: 28px;
+      margin-right: 0.5rem;
+    }
+
+    header .toggle-night {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    video {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: black;
+  display: block;
+  margin: auto;
+}
+
+    .top-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--item);
+    }
+
+    .top-tools input {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .top-tools button {
+      padding: 0.5rem 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #007aff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      padding: 0.5rem;
+      background: var(--item);
+    }
+
+    .categories button {
+      margin-right: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .categories button.active {
+      background-color: #007aff;
+    }
+
+    .channel-list {
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .channel-item {
+      background: var(--item);
+      padding: 0.8rem;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .channel-item:hover {
+      background: var(--hover);
+    }
+
+    .channel-name {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .favorite-btn {
+  font-size: 0.50rem;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.favorite-btn.add {
+  background-color: #28a745;
+  color: white;
+}
+
+.favorite-btn.remove {
+  background-color: #dc3545;
+  color: white;
+}
+
+    #qrModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #qrModal video {
+      width: 300px !important;
+      height: 300px !important;
+    }
+
+    #qrModal button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: red;
+      border: none;
+      color: white;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/859/859270.png" alt="logo" />
+      Mz TV
+    </div>
+    <button class="toggle-night" onclick="toggleNight()">🌙</button>
+  </header>
+
+  <video id="videoPlayer" controls autoplay></video>
+
+  <div class="top-tools">
+    <input type="text" placeholder="Cari channel..." oninput="filterChannels(this.value)">
+    <button onclick="showQR()">QR</button>
+  </div>
+
+  <div class="categories" id="categoryTabs"></div>
+
+  <div class="channel-list" id="channelList"></div>
+
+  <div id="qrModal">
+    <div id="qr-reader" style="width:300px"></div>
+    <button onclick="closeQR()">Tutup</button>
+  </div>
+
+  <script>
+    const iptvChannels = {
+      "Favorit": [],
+      "Religi": [
+        { name: "Rodja TV", url: "https://rodjatv.com/rodjatv/live.m3u8" },
+        { name: "Al-Iman TV", url: "https://tv.aliman.id/aliman/live.m3u8" },
+        { name: "Wesal TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/wesaltv.m3u8" },
+        { name: "Al-Wafa Tarim", url: "https://ammedia.siar.us/ammedia/live/playlist.m3u8" },
+        { name: "Ashiil TV", url: "https://h1.intechmedia.net/intech/ch2.m3u8" },
+        { name: "Bin Baz TV", url: "https://h1.intechmedia.net/intech/ch22.m3u8" },
+        { name: "Insan TV", url: "https://h1.intechmedia.net/intech/ch1.m3u8" },
+        { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },
+        { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
+        { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
+      ],
+
+      "Olahraga": [
+        { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
+        { name: "beIN SPORTS XTRA", url: "https://apollo.production-public.tubi.io/live/ac-bein.m3u8" }
+      ],
+
+      "Berita": [
+        { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
+        { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
+        { name: "RRI Net", url: "https://rrinet.rri.co.id/hls/live.m3u8" },
+        { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
+        { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" },
+      ],
+
+      "Lainnya": [
+        { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
+        { name: "Bein Sport", url: "http://ns8.indexforce.com:1935/ann/ann/playlist.m3u8" },
+      ],
+    };
+
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const video = document.getElementById("videoPlayer");
+    const categoryTabs = document.getElementById("categoryTabs");
+    const channelList = document.getElementById("channelList");
+    let hls, currentCategory = "";
+
+    function toggleNight() {
+      document.body.classList.toggle("night");
+    }
+
+    function playChannel(url) {
+      if (Hls.isSupported()) {
+        if (hls) hls.destroy();
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+      } else {
+        video.src = url;
+      }
+      video.play();
+    }
+
+    function loadCategories() {
+      categoryTabs.innerHTML = "";
+      Object.keys(iptvChannels).forEach((cat, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = cat;
+        btn.onclick = () => {
+          document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          loadChannels(cat);
+        };
+        if (i === 0) btn.classList.add("active");
+        categoryTabs.appendChild(btn);
+      });
+      loadChannels("Olahraga");
+    }
+
+    function loadChannels(cat) {
+      currentCategory = cat;
+      channelList.innerHTML = "";
+      let channels = iptvChannels[cat];
+      if (cat === "Favorit") {
+        channels = favorites;
+      }
+      channels.forEach(channel => {
+        const item = document.createElement("div");
+        item.className = "channel-item";
+        item.innerHTML = `
+  <div class="channel-name">${channel.name}</div>
+  <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
+    ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
+  </button>
+`;
+
+        item.onclick = (e) => {
+          if (!e.target.classList.contains("favorite-btn")) playChannel(channel.url);
+        };
+        channelList.appendChild(item);
+      });
+    }
+
+    function filterChannels(query) {
+      const filtered = (currentCategory === "Favorit" ? favorites : iptvChannels[currentCategory])
+        .filter(ch => ch.name.toLowerCase().includes(query.toLowerCase()));
+      channelList.innerHTML = "";
+      filtered.forEach(channel => {
+        const item = document.createElement("div");
+        item.className = "channel-item";
+        item.innerHTML = `
+  <div class="channel-name">${channel.name}</div>
+  <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
+    ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
+  </button>
+`;
+
+        item.onclick = (e) => {
+          if (!e.target.classList.contains("favorite-btn")) playChannel(channel.url);
+        };
+        channelList.appendChild(item);
+      });
+    }
+
+    function isFavorite(url) {
+      return favorites.some(ch => ch.url === url);
+    }
+
+    function toggleFavorite(e, name, url) {
+      e.stopPropagation();
+      const index = favorites.findIndex(ch => ch.url === url);
+      if (index >= 0) {
+        favorites.splice(index, 1);
+      } else {
+        favorites.push({ name, url });
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      loadChannels(currentCategory);
+    }
+
+    // QR Code scanner
+    let html5QrCode;
+    function showQR() {
+      document.getElementById("qrModal").style.display = "flex";
+      html5QrCode = new Html5Qrcode("qr-reader");
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decoded) => {
+          html5QrCode.stop();
+          document.getElementById("qrModal").style.display = "none";
+          playChannel(decoded);
+        },
+        err => { }
+      );
+    }
+    function closeQR() {
+      html5QrCode.stop();
+      document.getElementById("qrModal").style.display = "none";
+    }
+
+    loadCategories();
+  </script>
+
+</body>
+
+</html>
