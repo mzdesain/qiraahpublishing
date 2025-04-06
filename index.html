@@ -58,13 +58,28 @@
     }
 
     video {
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  background: black;
-  display: block;
-  margin: auto;
-}
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      background: black;
+      display: block;
+      margin: auto;
+    }
+
+    .fullscreen-btn-container {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .fullscreen-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #007aff;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
     .top-tools {
       display: flex;
@@ -140,23 +155,23 @@
     }
 
     .favorite-btn {
-  font-size: 0.50rem;
-  padding: 0.3rem 0.6rem;
-  border: none;
-  border-radius: 99px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+      font-size: 0.50rem;
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-.favorite-btn.add {
-  background-color: #28a745;
-  color: white;
-}
+    .favorite-btn.add {
+      background-color: #28a745;
+      color: white;
+    }
 
-.favorite-btn.remove {
-  background-color: #dc3545;
-  color: white;
-}
+    .favorite-btn.remove {
+      background-color: #dc3545;
+      color: white;
+    }
 
     #qrModal {
       display: none;
@@ -190,12 +205,17 @@
   <header>
     <div>
       <img src="https://cdn-icons-png.flaticon.com/512/859/859270.png" alt="logo" />
-      Mz TV
+      IPTV Mobile
     </div>
     <button class="toggle-night" onclick="toggleNight()">🌙</button>
   </header>
 
   <video id="videoPlayer" controls autoplay></video>
+
+  <!-- Fullscreen Button -->
+  <div class="fullscreen-btn-container">
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+  </div>
 
   <div class="top-tools">
     <input type="text" placeholder="Cari channel..." oninput="filterChannels(this.value)">
@@ -203,7 +223,6 @@
   </div>
 
   <div class="categories" id="categoryTabs"></div>
-
   <div class="channel-list" id="channelList"></div>
 
   <div id="qrModal">
@@ -226,12 +245,10 @@
         { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
         { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
       ],
-
       "Olahraga": [
         { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
         { name: "beIN SPORTS XTRA", url: "https://apollo.production-public.tubi.io/live/ac-bein.m3u8" }
       ],
-
       "Berita": [
         { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
         { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
@@ -239,7 +256,6 @@
         { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
         { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" },
       ],
-
       "Lainnya": [
         { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
         { name: "Bein Sport", url: "http://ns8.indexforce.com:1935/ann/ann/playlist.m3u8" },
@@ -288,19 +304,16 @@
       currentCategory = cat;
       channelList.innerHTML = "";
       let channels = iptvChannels[cat];
-      if (cat === "Favorit") {
-        channels = favorites;
-      }
+      if (cat === "Favorit") channels = favorites;
       channels.forEach(channel => {
         const item = document.createElement("div");
         item.className = "channel-item";
         item.innerHTML = `
-  <div class="channel-name">${channel.name}</div>
-  <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
-    ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
-  </button>
-`;
-
+          <div class="channel-name">${channel.name}</div>
+          <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
+            ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
+          </button>
+        `;
         item.onclick = (e) => {
           if (!e.target.classList.contains("favorite-btn")) playChannel(channel.url);
         };
@@ -316,12 +329,11 @@
         const item = document.createElement("div");
         item.className = "channel-item";
         item.innerHTML = `
-  <div class="channel-name">${channel.name}</div>
-  <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
-    ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
-  </button>
-`;
-
+          <div class="channel-name">${channel.name}</div>
+          <button class="favorite-btn ${isFavorite(channel.url) ? "remove" : "add"}" onclick="toggleFavorite(event, '${channel.name}', '${channel.url}')">
+            ${isFavorite(channel.url) ? "Remove from Favorit" : "Add to Favorit"}
+          </button>
+        `;
         item.onclick = (e) => {
           if (!e.target.classList.contains("favorite-btn")) playChannel(channel.url);
         };
@@ -345,7 +357,26 @@
       loadChannels(currentCategory);
     }
 
-    // QR Code scanner
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        video.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // Auto resize saat orientasi berubah (mobile)
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        if (window.innerWidth > window.innerHeight) {
+          video.style.height = "calc(100vh - 100px)";
+        } else {
+          video.style.height = "auto";
+        }
+      }, 300);
+    });
+
+    // QR Code
     let html5QrCode;
     function showQR() {
       document.getElementById("qrModal").style.display = "flex";
@@ -361,6 +392,7 @@
         err => { }
       );
     }
+
     function closeQR() {
       html5QrCode.stop();
       document.getElementById("qrModal").style.display = "none";
@@ -370,5 +402,4 @@
   </script>
 
 </body>
-
 </html>
