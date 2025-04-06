@@ -97,8 +97,8 @@
     .categories button {
       margin-right: 0.5rem;
       padding: 0.4rem 1rem;
-      background: #444;
-      color: white;
+      background: gold;
+      color: black;
       border: none;
       border-radius: 999px;
       cursor: pointer;
@@ -106,6 +106,7 @@
 
     .categories button.active {
       background-color: #007aff;
+      color: white;
     }
 
     .channel-list {
@@ -142,7 +143,6 @@
       cursor: pointer;
     }
 
-    /* Tambahan khusus untuk tutorial */
     .tutorial-text {
       line-height: 1.6;
       font-size: 1rem;
@@ -168,6 +168,9 @@
   </header>
 
   <video id="videoPlayer" controls autoplay></video>
+  <div id="videoError" style="color: red; text-align: center; margin-top: 0.5rem; display: none;">
+    Mohon maaf, saluran tidak dapat diputar saat ini.
+  </div>
   <iframe id="youtubePlayer" width="100%" height="480" frameborder="0" allowfullscreen></iframe>
 
   <div class="fullscreen-btn-container">
@@ -189,7 +192,7 @@
               <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
               <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
               <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
-			 <li>Untuk kategori selain YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
+              <li>Untuk kategori selain YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
               <li>Klik tombol <strong>Fullscreen</strong> untuk menonton dalam tampilan layar penuh (rotasi landscape).</li>
             </ol>
           </div>
@@ -208,12 +211,12 @@
         { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
         { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
       ],
-      
+
       "Olahraga": [
         { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
         { name: "beIN SPORTS XTRA", url: "https://apollo.production-public.tubi.io/live/ac-bein.m3u8" }
       ],
-      
+
       "Berita": [
         { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
         { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
@@ -221,24 +224,24 @@
         { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
         { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" }
       ],
-      
+
       "Lainnya": [
         { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
         { name: "Bein Sport", url: "http://ns8.indexforce.com:1935/ann/ann/playlist.m3u8" },
       ],
-      
+
       "YouTube": [
         { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
         { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" }
       ]
     };
 
-
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     const video = document.getElementById("videoPlayer");
     const youtube = document.getElementById("youtubePlayer");
     const categoryTabs = document.getElementById("categoryTabs");
     const channelList = document.getElementById("channelList");
+    const errorMsg = document.getElementById("videoError");
     let hls;
 
     function toggleNight() {
@@ -246,6 +249,8 @@
     }
 
     function playChannel(url) {
+      errorMsg.style.display = "none";
+
       if (url.includes("youtube.com")) {
         video.style.display = "none";
         youtube.style.display = "block";
@@ -255,26 +260,38 @@
 
       youtube.style.display = "none";
       youtube.src = "";
-
       video.style.display = "block";
+
       if (Hls.isSupported()) {
         if (hls) hls.destroy();
         hls = new Hls();
         hls.loadSource(url);
         hls.attachMedia(video);
+        hls.on(Hls.Events.ERROR, function (event, data) {
+          if (data.fatal) {
+            errorMsg.style.display = "block";
+          }
+        });
       } else {
         video.src = url;
+        video.onerror = () => {
+          errorMsg.style.display = "block";
+        };
       }
-      video.play();
+
+      video.play().catch(() => {
+        errorMsg.style.display = "block";
+      });
     }
 
     function rotateFullscreen() {
-      const elem = document.fullscreenElement ? document.exitFullscreen() : video.requestFullscreen();
-      Promise.resolve(elem).then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock("landscape").catch(() => {});
-        }
-      });
+      if (!document.fullscreenElement) {
+        video.requestFullscreen().catch(err => {
+          console.error(`Gagal masuk fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     }
 
     function loadCategories() {
