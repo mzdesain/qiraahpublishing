@@ -161,10 +161,10 @@
 <body>
   <header>
     <div class="header-left">
-      <a href="https://saweria.co/namakamu" target="_blank" class="donate-link"><i class="fas fa-donate"></i></a>
-      Donasi Saweria
+      <a href="https://muzanni.my.id" target="_blank" class="donate-link"><i class="fas fa-television"></i></a>
+      NasyraTV
     </div>
-    <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-moon"></i></button>
+    <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
   </header>
 
   <video id="videoPlayer" controls autoplay></video>
@@ -189,6 +189,7 @@
           <div class="tutorial-text">
             <ol>
               <li>Pilih kategori, lalu pilih channel atau saluran yang ingin ditonton.</li>
+              <li>Klik icon Lampu untuk mengganti tampilan (Gelap/Terang).</li>
               <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
               <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
               <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
@@ -232,7 +233,8 @@
 
       "YouTube": [
         { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
-        { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" }
+        { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" },
+        { name: "Madinah", url: "https://www.youtube.com/embed/c2LvGCQZojA?si=CtdAgCfWPOLK8nS4" }
       ]
     };
 
@@ -322,7 +324,7 @@
         } else {
           item.onclick = () => playChannel(channel.url);
           const favBtn = document.createElement("button");
-          favBtn.innerHTML = '<i class="fas fa-eye"></i>';
+          favBtn.innerHTML = '<i class="fas fa-television"></i>';
           favBtn.className = "favorite-btn";
           favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
           const nameRow = document.createElement("div");
