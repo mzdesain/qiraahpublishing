@@ -34,7 +34,7 @@
     }
 
     header {
-      background: var(--item);
+      background: #007aff;
       padding: 1rem;
       display: flex;
       justify-content: space-between;
@@ -101,13 +101,14 @@
       background: gold;
       color: black;
       border: none;
-      border-radius: 999px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
     .categories button.active {
       background-color: #007aff;
       color: white;
+      
     }
     
     .channel-list {
@@ -156,6 +157,21 @@
     .tutorial-text li {
       margin-bottom: 0.7rem;
     }
+    
+    .preview-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  padding-bottom: 1rem;
+}
+
+.channel-section {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
   </style>
 </head>
 
@@ -168,6 +184,8 @@
     <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
   </header>
 
+  <!-- Video Preview -->
+<div class="preview-container">
   <video id="videoPlayer" controls autoplay></video>
   <div id="videoError" style="color: red; text-align: center; margin-top: 0.5rem; display: none;">
     Mohon maaf, saluran tidak dapat diputar saat ini.
@@ -177,9 +195,15 @@
   <div class="fullscreen-btn-container">
     <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
   </div>
+</div>
 
-  <div class="categories" id="categoryTabs"></div>
+<!-- Channel List Section -->
+<div class="categories" id="categoryTabs"></div>
+
+<div class="channel-section">
   <div class="channel-list" id="channelList"></div>
+</div>
+
 
   <script>
     const iptvChannels = {
@@ -223,7 +247,6 @@
 
       "Olahraga": [
         { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
-        { name: "beIN SPORTS XTRA", url: "https://list.iptvcat.com/my_list/s/ba485fe28f5400c76308e3dff78f31d9.m3u8" },
       ],
 
       "Berita": [
@@ -239,13 +262,17 @@
     name: "TV Arab",
     m3u: "https://iptv-org.github.io/iptv/languages/ara.m3u"
   },
+  {
+    name: "Bein Sports",
+    m3u: "https://raw.githubusercontent.com/El-asri-kimo/forever/main/iptv.m3u"
+  },
     {
     name: "TV Indonesia",
     m3u: "https://raw.githubusercontent.com/emonnaja/indonesian-IPTV/refs/heads/main/index.m3u"
   },
   {
     name: "TV Lokal",
-    m3u: "https://raw.githubusercontent.com/TVcrack/tontonan/main/S%20(2).m3u" },
+    m3u: "ip-tv.app/Indonesia" },
 ],
 
       "Lainnya": [
