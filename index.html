@@ -88,12 +88,17 @@
       cursor: pointer;
     }
 
-    .categories {
-      display: flex;
-      overflow-x: auto;
-      padding: 0.5rem;
-      background: var(--item);
-    }
+.categories {
+  display: flex;
+  overflow-x: auto;
+  padding: 0.5rem;
+  background: var(--item);
+  position: sticky;
+  top: 17.5rem; /* atau atur sesuai tinggi header kamu */
+  z-index: 9;
+}
+
+
 
     .categories button {
       margin-right: 0.5rem;
