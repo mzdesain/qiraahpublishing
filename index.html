@@ -129,7 +129,7 @@
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 1rem;
         }
-
+        
         .channel-item {
             background: var(--item);
             padding: 0.8rem;
@@ -175,19 +175,10 @@
             overflow-y: auto;
             padding-bottom: 2rem;
         }
-		.channel-list {
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 1rem;
-        }
-
-          @media (min-width: 768px) {
-              .channel-list {
-                  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column size for larger screens */
-              }
-          }
-
+        
+        @media (min-width:1024px) { 
+       .channel-list { grid-template-columns : repeat(auto-fill , minmax(250px ,1fr)); }  
+       header{font-size :1.6rem;} 
     </style>
 </head>
 
@@ -212,13 +203,13 @@
             <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
         </div>
 
-        <div class="categories" id="categoryTabs"></div>
-    </div>
+        <div class ="categories"id ="categoryTabs"></div >
+</div >
 
     <!-- Channel List Section -->
-    <div class="channel-section">
-        <div class="channel-list" id="channelList"></div>
-    </div>
+     <div class="channel-section">
+       <div class="channel-list" id="channelList"></div> <!-- Daftar saluran akan muncul di sini -->
+   </div>
 
     <script>
         const iptvChannels = {
