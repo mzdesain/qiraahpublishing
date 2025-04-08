@@ -92,7 +92,7 @@
             display: flex;
             overflow-x: auto; /* Membuat kategori dapat digeser */
             padding: 0.5rem;
-            background: white;
+            background: #007aff;
             position: fixed; /* Mengubah menjadi fixed */
             bottom: 0; /* Menempatkan di bagian bawah */
             left: 0;
@@ -117,8 +117,8 @@
         }
 
         .categories button.active {
-            background-color: #007aff;
-            color: white;
+            background-color: white;
+            color: #007aff;
         }
 
         .channel-list {
@@ -127,6 +127,7 @@
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 1rem;
             flex: 1; /* Memastikan channel-list mengisi ruang yang tersedia */
+            padding-bottom: 25px;
         }
 
         .channel-item {
