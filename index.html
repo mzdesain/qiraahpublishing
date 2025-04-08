@@ -90,13 +90,13 @@
         }
 
         .categories {
-        display: flex;
-        overflow-x: auto;
-        padding: 0.5rem;
-        background: var(--item);
-        position: sticky;
-        top: 0; /* Ubah dari calc(100%) menjadi 0 */
-        z-index: 9;
+            display: flex;
+            overflow-x: auto;
+            padding: 0.5rem;
+            background: var(--item);
+            position: sticky;
+            top: calc(100%);
+            z-index: 9;
         }
 
         .preview-container {
@@ -447,11 +447,14 @@
                     name: "Playlist 4",
                     m3u: "https://raw.githubusercontent.com/TVcrack/tontonan/main/S%20(2).m3u"
                 },
+                {
+                    name: "Playlist 5",
+                    m3u: "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+                },
             ],
             "Lainnya": [
                 { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
-                { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },
-                { name: "AL: Super sport 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/407.m3u8" },     
+                { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },   
             ],
         };
 
@@ -513,21 +516,21 @@
             }
         }
 
-function loadCategories() {
-        categoryTabs.innerHTML = "";
-        Object.keys(iptvChannels).forEach((cat, i) => {
-            const btn = document.createElement("button");
-            btn.textContent = cat;
-            btn.onclick = () => {
-                document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                loadChannels(cat);
-            };
-            if (i === 0) btn.classList.add("active");
-            categoryTabs.appendChild(btn);
-        });
-        loadChannels(Object.keys(iptvChannels)[0]); // Memanggil saluran untuk kategori pertama
-    }
+        function loadCategories() {
+            categoryTabs.innerHTML = "";
+            Object.keys(iptvChannels).forEach((cat, i) => {
+                const btn = document.createElement("button");
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    loadChannels(cat);
+                };
+                if (i === 0) btn.classList.add("active");
+                categoryTabs.appendChild(btn);
+            });
+            loadChannels(Object.keys(iptvChannels)[0]);
+        }
 
         function loadChannels(category) {
             channelList.innerHTML = "";
