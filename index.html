@@ -175,6 +175,19 @@
             overflow-y: auto;
             padding-bottom: 2rem;
         }
+		.channel-list {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+          @media (min-width: 768px) {
+              .channel-list {
+                  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column size for larger screens */
+              }
+          }
+
     </style>
 </head>
 
