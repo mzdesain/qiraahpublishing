@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nonton TV</title>
-  <link rel="stylesheet" href="styles.css"> <!-- atau nama file CSS kamu -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -34,7 +33,7 @@
     }
 
     header {
-      background: #007aff;
+      background: var(--item);
       padding: 1rem;
       display: flex;
       justify-content: space-between;
@@ -88,17 +87,12 @@
       cursor: pointer;
     }
 
-.categories {
-  display: flex;
-  overflow-x: auto;
-  padding: 0.5rem;
-  background: var(--item);
-  position: sticky;
-  top: 17.5rem; /* atau atur sesuai tinggi header kamu */
-  z-index: 9;
-}
-
-
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      padding: 0.5rem;
+      background: var(--item);
+    }
 
     .categories button {
       margin-right: 0.5rem;
@@ -106,16 +100,15 @@
       background: gold;
       color: black;
       border: none;
-      border-radius: 6px;
+      border-radius: 999px;
       cursor: pointer;
     }
 
     .categories button.active {
       background-color: #007aff;
       color: white;
-      
     }
-    
+
     .channel-list {
       padding: 1rem;
       display: grid;
@@ -162,35 +155,18 @@
     .tutorial-text li {
       margin-bottom: 0.7rem;
     }
-    
-    .preview-container {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--bg);
-  padding-bottom: 1rem;
-}
-
-.channel-section {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 2rem;
-}
-
   </style>
 </head>
 
 <body>
   <header>
     <div class="header-left">
-      <a href="https://muzanni.my.id" target="_blank" class="donate-link"><i class="fas fa-television"></i></a>
-      NasyraTV
+      <a href="https://saweria.co/namakamu" target="_blank" class="donate-link"><i class="fas fa-donate"></i></a>
+      Donasi Saweria
     </div>
-    <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
+    <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-moon"></i></button>
   </header>
 
-  <!-- Video Preview -->
-<div class="preview-container">
   <video id="videoPlayer" controls autoplay></video>
   <div id="videoError" style="color: red; text-align: center; margin-top: 0.5rem; display: none;">
     Mohon maaf, saluran tidak dapat diputar saat ini.
@@ -200,15 +176,9 @@
   <div class="fullscreen-btn-container">
     <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
   </div>
-</div>
 
-<!-- Channel List Section -->
-<div class="categories" id="categoryTabs"></div>
-
-<div class="channel-section">
+  <div class="categories" id="categoryTabs"></div>
   <div class="channel-list" id="channelList"></div>
-</div>
-
 
   <script>
     const iptvChannels = {
@@ -219,7 +189,6 @@
           <div class="tutorial-text">
             <ol>
               <li>Pilih kategori, lalu pilih channel atau saluran yang ingin ditonton.</li>
-              <li>Klik icon Lampu untuk mengganti tampilan (Gelap/Terang).</li>
               <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
               <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
               <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
@@ -230,13 +199,6 @@
         `
         }
       ],
-      
-            "YouTube": [
-        { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
-        { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" },
-        { name: "Madinah", url: "https://www.youtube.com/embed/c2LvGCQZojA?si=CtdAgCfWPOLK8nS4" }
-      ],
-      
       "Religi": [
         { name: "Rodja TV", url: "https://rodjatv.com/rodjatv/live.m3u8" },
         { name: "Al-Iman TV", url: "https://tv.aliman.id/aliman/live.m3u8" },
@@ -252,6 +214,7 @@
 
       "Olahraga": [
         { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
+        { name: "beIN SPORTS XTRA", url: "https://apollo.production-public.tubi.io/live/ac-bein.m3u8" }
       ],
 
       "Berita": [
@@ -261,29 +224,16 @@
         { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
         { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" }
       ],
-      
-      "All Channel": [
-  {
-    name: "TV Arab",
-    m3u: "https://iptv-org.github.io/iptv/languages/ara.m3u"
-  },
-  {
-    name: "Bein Sports",
-    m3u: "https://raw.githubusercontent.com/El-asri-kimo/forever/main/iptv.m3u"
-  },
-    {
-    name: "TV Indonesia",
-    m3u: "https://raw.githubusercontent.com/emonnaja/indonesian-IPTV/refs/heads/main/index.m3u"
-  },
-  {
-    name: "TV Lokal",
-    m3u: "ip-tv.app/Indonesia" },
-],
 
       "Lainnya": [
         { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
+        { name: "Bein Sport", url: "http://ns8.indexforce.com:1935/ann/ann/playlist.m3u8" },
       ],
-      
+
+      "YouTube": [
+        { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
+        { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" }
+      ]
     };
 
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -361,110 +311,36 @@
     }
 
     function loadChannels(category) {
-  channelList.innerHTML = "";
+      channelList.innerHTML = "";
+      iptvChannels[category].forEach(channel => {
+        const item = document.createElement("div");
+        item.className = "channel-item";
 
- if (category === "All Channel") {
-  // Buat tombol-tombol khusus untuk masing-masing m3u
-  iptvChannels["All Channel"].forEach((source, index) => {
-    const m3uButton = document.createElement("button");
-    m3uButton.textContent = ` ${source.name}`;
-    m3uButton.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: #444; color: white; border: none; border-radius: 999px; cursor: pointer;";
-    m3uButton.onclick = () => loadM3UChannels(source);
-    channelList.appendChild(m3uButton);
-  });
-
-  // Fungsi untuk memuat channel dari m3u tertentu
-  function loadM3UChannels(source) {
-    channelList.innerHTML = ""; // Kosongkan dulu
-
-    const backBtn = document.createElement("button");
-    backBtn.textContent = "← Kembali ke All Channel";
-    backBtn.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: darkred; color: white; border: none; border-radius: 999px; cursor: pointer;";
-    backBtn.onclick = () => loadChannels("All Channel");
-    channelList.appendChild(backBtn);
-
-    fetch(source.m3u)
-      .then(res => res.text())
-      .then(data => {
-        const lines = data.split("\n");
-        const channels = [];
-        let currentName = "";
-
-        lines.forEach(line => {
-          if (line.startsWith("#EXTINF")) {
-            const match = line.match(/,(.*)$/);
-            currentName = match ? match[1].trim() : "Tanpa Nama";
-          } else if (line.startsWith("http")) {
-            channels.push({ name: currentName, url: line.trim() });
-          }
-        });
-
-        channels.forEach(c => {
-          const item = document.createElement("div");
-          item.className = "channel-item";
-          item.onclick = () => playChannel(c.url);
-
+        if (channel.text) {
+          item.innerHTML = channel.text;
+          item.style.gridColumn = "1 / -1";
+        } else {
+          item.onclick = () => playChannel(channel.url);
           const favBtn = document.createElement("button");
-          favBtn.innerHTML = '<i class="fas fa-television"></i>';
+          favBtn.innerHTML = '<i class="fas fa-eye"></i>';
           favBtn.className = "favorite-btn";
-          favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(c); };
-
+          favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
           const nameRow = document.createElement("div");
           nameRow.className = "channel-name";
-          nameRow.textContent = c.name;
+          nameRow.textContent = channel.name;
           nameRow.appendChild(favBtn);
           item.appendChild(nameRow);
-          channelList.appendChild(item);
-        });
-      })
-      .catch(err => {
-        const error = document.createElement("div");
-        error.textContent = `Gagal memuat: ${source.name}`;
-        error.style.color = "red";
-        error.style.textAlign = "center";
-        channelList.appendChild(error);
-        console.error("Gagal load M3U:", err);
+        }
+
+        channelList.appendChild(item);
       });
-  }
-
-  return;
-}
-
-  // Default render untuk kategori lain
-  iptvChannels[category].forEach(channel => {
-    const item = document.createElement("div");
-    item.className = "channel-item";
-
-    if (channel.text) {
-      item.innerHTML = channel.text;
-      item.style.gridColumn = "1 / -1";
-    } else {
-      item.onclick = () => playChannel(channel.url);
-      const favBtn = document.createElement("button");
-      favBtn.innerHTML = '<i class="fas fa-television"></i>';
-      favBtn.className = "favorite-btn";
-      favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
-      const nameRow = document.createElement("div");
-      nameRow.className = "channel-name";
-      nameRow.textContent = channel.name;
-      nameRow.appendChild(favBtn);
-      item.appendChild(nameRow);
     }
 
-    channelList.appendChild(item);
-  });
-}
     function toggleFavorite(channel) {
       // optional fitur favorit
     }
-    loadCategories();
-    
-    // Putar Rodja TV saat pertama kali membuka aplikasi
-window.addEventListener("DOMContentLoaded", () => {
-  playChannel("https://rodjatv.com/rodjatv/live.m3u8");
-});
 
-    
+    loadCategories();
   </script>
 </body>
 </html>
