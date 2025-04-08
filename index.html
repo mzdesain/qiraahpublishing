@@ -90,13 +90,13 @@
         }
 
         .categories {
-            display: flex;
-            overflow-x: auto;
-            padding: 0.5rem;
-            background: var(--item);
-            position: sticky;
-            top: calc(100%);
-            z-index: 9;
+        display: flex;
+        overflow-x: auto;
+        padding: 0.5rem;
+        background: var(--item);
+        position: sticky;
+        top: 0; /* Ubah dari calc(100%) menjadi 0 */
+        z-index: 9;
         }
 
         .preview-container {
@@ -513,21 +513,21 @@
             }
         }
 
-        function loadCategories() {
-            categoryTabs.innerHTML = "";
-            Object.keys(iptvChannels).forEach((cat, i) => {
-                const btn = document.createElement("button");
-                btn.textContent = cat;
-                btn.onclick = () => {
-                    document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-                    loadChannels(cat);
-                };
-                if (i === 0) btn.classList.add("active");
-                categoryTabs.appendChild(btn);
-            });
-            loadChannels(Object.keys(iptvChannels)[0]);
-        }
+function loadCategories() {
+        categoryTabs.innerHTML = "";
+        Object.keys(iptvChannels).forEach((cat, i) => {
+            const btn = document.createElement("button");
+            btn.textContent = cat;
+            btn.onclick = () => {
+                document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                loadChannels(cat);
+            };
+            if (i === 0) btn.classList.add("active");
+            categoryTabs.appendChild(btn);
+        });
+        loadChannels(Object.keys(iptvChannels)[0]); // Memanggil saluran untuk kategori pertama
+    }
 
         function loadChannels(category) {
             channelList.innerHTML = "";
