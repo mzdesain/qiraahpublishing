@@ -90,19 +90,21 @@
 
         .categories {
             display: flex;
-            overflow-x: auto; /* Membuat kategori dapat digeser */
+            overflow-x: auto;
             padding: 0.5rem;
-            background: #007aff;
-            position: fixed; /* Mengubah menjadi fixed */
-            bottom: 0; /* Menempatkan di bagian bawah */
-            left: 0;
-            right: 0;
+            background: var(--item);
+            position: sticky;
+            top: calc(100%);
             z-index: 9;
-            scrollbar-width: none; /* Menyembunyikan scrollbar untuk Firefox */
         }
 
-        .categories::-webkit-scrollbar {
-            display: none; /* Menyembunyikan scrollbar untuk Chrome, Safari, dan Edge */
+        .preview-container {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg);
+            padding-bottom: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .categories button {
@@ -113,12 +115,11 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.3s; /* Efek transisi */
         }
 
         .categories button.active {
-            background-color: white;
-            color: #007aff;
+            background-color: #007aff;
+            color: white;
         }
 
         .channel-list {
@@ -126,8 +127,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 1rem;
-            flex: 1; /* Memastikan channel-list mengisi ruang yang tersedia */
-            padding-bottom: 25px;
         }
 
         .channel-item {
@@ -170,19 +169,10 @@
             margin-bottom: 0.7rem;
         }
 
-        .preview-container {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: var(--bg);
-            padding-bottom: 1rem;
-        }
-
         .channel-section {
             flex: 1;
             overflow-y: auto;
             padding-bottom: 2rem;
-            padding-top: 1rem; /* Menambahkan padding atas untuk menghindari tumpang tindih dengan navbar */
         }
     </style>
 </head>
@@ -196,7 +186,7 @@
         <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
     </header>
 
-    <!-- Video Preview -->
+    <!-- Video Preview + Categories -->
     <div class="preview-container">
         <video id="videoPlayer" controls autoplay></video>
         <div id="videoError" style="color: red; text-align: center; font-style: italic; font-family: sans-serif; font-size: small; font-weight: bold; margin-top: 0.5rem; display: none;">
@@ -207,15 +197,14 @@
         <div class="fullscreen-btn-container">
             <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
         </div>
+
+        <div class="categories" id="categoryTabs"></div>
     </div>
 
     <!-- Channel List Section -->
     <div class="channel-section">
         <div class="channel-list" id="channelList"></div>
     </div>
-
-    <!-- Kategori di bagian bawah -->
-    <div class="categories" id="categoryTabs"></div>
 
     <script>
         const iptvChannels = {
