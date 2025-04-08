@@ -2,345 +2,459 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nonton TV</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <style>
-    :root {
-      --bg: #111;
-      --text: #fff;
-      --item: #1e1e1e;
-      --hover: #333;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nonton TV</title>
+    <link rel="stylesheet" href="styles.css"> <!-- atau nama file CSS kamu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        :root {
+            --bg: #111;
+            --text: #fff;
+            --item: #1e1e1e;
+            --hover: #333;
+        }
 
-    body.night {
-      --bg: #fff;
-      --text: #000;
-      --item: #f2f2f2;
-      --hover: #ddd;
-    }
+        body.night {
+            --bg: #fff;
+            --text: #000;
+            --item: #f2f2f2;
+            --hover: #ddd;
+        }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    header {
-      background: var(--item);
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.4rem;
-    }
+        header {
+            background: #007aff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.4rem;
+        }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-    }
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
 
-    .donate-link {
-      color: var(--text);
-      text-decoration: none;
-      font-size: 1.6rem;
-      margin-right: 0.5rem;
-    }
+        .donate-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.6rem;
+            margin-right: 0.5rem;
+        }
 
-    .toggle-night {
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
+        .toggle-night {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-    video {
-      width: 100%;
-      height: auto;
-      background: black;
-      display: block;
-    }
+        video {
+            width: 100%;
+            height: auto;
+            background: black;
+            display: block;
+        }
 
-    iframe {
-      display: none;
-    }
+        iframe {
+            display: none;
+        }
 
-    .fullscreen-btn-container {
-      text-align: center;
-      margin-top: 0.5rem;
-    }
+        .fullscreen-btn-container {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
 
-    .fullscreen-btn {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      background: #007aff;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+        .fullscreen-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: #007aff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
 
-    .categories {
-      display: flex;
-      overflow-x: auto;
-      padding: 0.5rem;
-      background: var(--item);
-    }
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.5rem;
+            background: var(--item);
+            position: sticky;
+            top: 17.5rem; /* atau atur sesuai tinggi header kamu */
+            z-index: 9;
+        }
 
-    .categories button {
-      margin-right: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: gold;
-      color: black;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-    }
+        .categories button {
+            margin-right: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: gold;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-    .categories button.active {
-      background-color: #007aff;
-      color: white;
-    }
+        .categories button.active {
+            background-color: #007aff;
+            color: white;
+        }
 
-    .channel-list {
-      padding: 1rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 1rem;
-    }
+        .channel-list {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
 
-    .channel-item {
-      background: var(--item);
-      padding: 0.8rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+        .channel-item {
+            background: var(--item);
+            padding: 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-    .channel-item:hover {
-      background: var(--hover);
-    }
+        .channel-item:hover {
+            background: var(--hover);
+        }
 
-    .channel-name {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 500;
-    }
+        .channel-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
 
-    .favorite-btn {
-      background: none;
-      border: none;
-      color: gold;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: gold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
 
-    .tutorial-text {
-      line-height: 1.6;
-      font-size: 1rem;
-    }
+        .tutorial-text {
+            line-height: 1.6;
+            font-size: 1rem;
+        }
 
-    .tutorial-text ol {
-      padding-left: 1.2rem;
-    }
+        .tutorial-text ol {
+            padding-left: 1.2rem;
+        }
 
-    .tutorial-text li {
-      margin-bottom: 0.7rem;
-    }
-  </style>
+        .tutorial-text li {
+            margin-bottom: 0.7rem;
+        }
+
+        .preview-container {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg);
+            padding-bottom: 1rem;
+        }
+
+        .channel-section {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+    </style>
 </head>
 
 <body>
-  <header>
-    <div class="header-left">
-      <a href="https://saweria.co/namakamu" target="_blank" class="donate-link"><i class="fas fa-donate"></i></a>
-      Donasi Saweria
+    <header>
+        <div class="header-left">
+            <a href="https://muzanni.my.id" target="_blank" class="donate-link"><i class="fas fa-television"></i></a>
+            NasyraTV
+        </div>
+        <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
+    </header>
+
+    <!-- Video Preview -->
+    <div class="preview-container">
+        <video id="videoPlayer" controls autoplay></video>
+        <div id="videoError" style="color: red; text-align: center; margin-top: 0.5rem; display: none;">
+            Mohon maaf, saluran tidak dapat diputar saat ini.
+        </div>
+        <iframe id="youtubePlayer" width="100%" height="480" frameborder="0" allowfullscreen></iframe>
+
+        <div class="fullscreen-btn-container">
+            <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
+        </div>
     </div>
-    <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-moon"></i></button>
-  </header>
 
-  <video id="videoPlayer" controls autoplay></video>
-  <div id="videoError" style="color: red; text-align: center; margin-top: 0.5rem; display: none;">
-    Mohon maaf, saluran tidak dapat diputar saat ini.
-  </div>
-  <iframe id="youtubePlayer" width="100%" height="480" frameborder="0" allowfullscreen></iframe>
+    <!-- Channel List Section -->
+    <div class="categories" id="categoryTabs"></div>
 
-  <div class="fullscreen-btn-container">
-    <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
-  </div>
+    <div class="channel-section">
+        <div class="channel-list" id="channelList"></div>
+    </div>
 
-  <div class="categories" id="categoryTabs"></div>
-  <div class="channel-list" id="channelList"></div>
-
-  <script>
-    const iptvChannels = {
-      "Tutorial": [
-        {
-          name: "Panduan Menonton",
-          text: `
-          <div class="tutorial-text">
-            <ol>
-              <li>Pilih kategori, lalu pilih channel atau saluran yang ingin ditonton.</li>
-              <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
-              <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
-              <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
-              <li>Untuk kategori selain YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
-              <li>Klik tombol <strong>Fullscreen</strong> untuk menonton dalam tampilan layar penuh (rotasi landscape).</li>
-            </ol>
-          </div>
-        `
-        }
-      ],
-      "Religi": [
-        { name: "Rodja TV", url: "https://rodjatv.com/rodjatv/live.m3u8" },
-        { name: "Al-Iman TV", url: "https://tv.aliman.id/aliman/live.m3u8" },
-        { name: "Wesal TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/wesaltv.m3u8" },
-        { name: "Al-Wafa Tarim", url: "https://ammedia.siar.us/ammedia/live/playlist.m3u8" },
-        { name: "Ashiil TV", url: "https://h1.intechmedia.net/intech/ch2.m3u8" },
-        { name: "Bin Baz TV", url: "https://h1.intechmedia.net/intech/ch22.m3u8" },
-        { name: "Insan TV", url: "https://h1.intechmedia.net/intech/ch1.m3u8" },
-        { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },
-        { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
-        { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
-      ],
-
-      "Olahraga": [
-        { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
-        { name: "beIN SPORTS XTRA", url: "https://apollo.production-public.tubi.io/live/ac-bein.m3u8" }
-      ],
-
-      "Berita": [
-        { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
-        { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
-        { name: "RRI Net", url: "https://rrinet.rri.co.id/hls/live.m3u8" },
-        { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
-        { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" }
-      ],
-
-      "Lainnya": [
-        { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
-        { name: "Bein Sport", url: "http://ns8.indexforce.com:1935/ann/ann/playlist.m3u8" },
-      ],
-
-      "YouTube": [
-        { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
-        { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" }
-      ]
-    };
-
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const video = document.getElementById("videoPlayer");
-    const youtube = document.getElementById("youtubePlayer");
-    const categoryTabs = document.getElementById("categoryTabs");
-    const channelList = document.getElementById("channelList");
-    const errorMsg = document.getElementById("videoError");
-    let hls;
-
-    function toggleNight() {
-      document.body.classList.toggle("night");
-    }
-
-    function playChannel(url) {
-      errorMsg.style.display = "none";
-
-      if (url.includes("youtube.com")) {
-        video.style.display = "none";
-        youtube.style.display = "block";
-        youtube.src = url;
-        return;
-      }
-
-      youtube.style.display = "none";
-      youtube.src = "";
-      video.style.display = "block";
-
-      if (Hls.isSupported()) {
-        if (hls) hls.destroy();
-        hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.ERROR, function (event, data) {
-          if (data.fatal) {
-            errorMsg.style.display = "block";
-          }
-        });
-      } else {
-        video.src = url;
-        video.onerror = () => {
-          errorMsg.style.display = "block";
+    <script>
+        const iptvChannels = {
+            "Tutorial": [
+                {
+                    name: "Panduan Menonton",
+                    text: `
+                    <div class="tutorial-text">
+                        <ol>
+                            <li>Pilih kategori, lalu pilih channel atau saluran yang ingin ditonton.</li>
+                            <li>Klik icon Lampu untuk mengganti tampilan (Gelap/Terang).</li>
+                            <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
+                            <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
+                            <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
+                            <li>Untuk kategori selain YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
+                            <li>Klik tombol <strong>Fullscreen</strong> untuk menonton dalam tampilan layar penuh (rotasi landscape).</li>
+                        </ol>
+                    </div>
+                    `
+                }
+            ],
+            "YouTube": [
+                { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
+                { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" },
+                { name: "Madinah", url: "https://www.youtube.com/embed/c2LvGCQZojA?si=CtdAgCfWPOLK8nS4" }
+            ],
+            "Religi": [
+                { name: "Rodja TV", url: "https://rodjatv.com/rodjatv/live.m3u8" },
+                { name: "Al-Iman TV", url: "https://tv.aliman.id/aliman/live.m3u8" },
+                { name: "Wesal TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/wesaltv.m3u8" },
+                { name: "Al-Wafa Tarim", url: "https://ammedia.siar.us/ammedia/live/playlist.m3u8" },
+                { name: "Ashiil TV", url: "https://h1.intechmedia.net/intech/ch2.m3u8" },
+                { name: "Bin Baz TV", url: "https://h1.intechmedia.net/intech/ch22.m3u8" },
+                { name: "Insan TV", url: "https://h1.intechmedia.net/intech/ch1.m3u8" },
+                { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },
+                { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
+                { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
+            ],
+            "Olahraga": [
+                { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
+            ],
+            "Berita": [
+                { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
+                { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
+                { name: "RRI Net", url: "https://rrinet.rri.co.id/hls/live.m3u8" },
+                { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
+                { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" }
+            ],
+            "All Channel": [
+                {
+                    name: "TV Arab",
+                    m3u: "https://iptv-org.github.io/iptv/languages/ara.m3u"
+                },
+                {
+                    name: "Bein Sports",
+                    m3u: "https://raw.githubusercontent.com/El-asri-kimo/forever/main/iptv.m3u"
+                },
+                {
+                    name: "TV Indonesia",
+                    m3u: "https://raw.githubusercontent.com/emonnaja/indonesian-IPTV/refs/heads/main/index.m3u"
+                },
+                {
+                    name: "TV Lokal",
+                    m3u: "ip-tv.app/Indonesia"
+                },
+            ],
+            "Lainnya": [
+                { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
+            ],
         };
-      }
 
-      video.play().catch(() => {
-        errorMsg.style.display = "block";
-      });
-    }
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const video = document.getElementById("videoPlayer");
+        const youtube = document.getElementById("youtubePlayer");
+        const categoryTabs = document.getElementById("categoryTabs");
+        const channelList = document.getElementById("channelList");
+        const errorMsg = document.getElementById("videoError");
+        let hls;
 
-    function rotateFullscreen() {
-      if (!document.fullscreenElement) {
-        video.requestFullscreen().catch(err => {
-          console.error(`Gagal masuk fullscreen: ${err.message}`);
-        });
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    function loadCategories() {
-      categoryTabs.innerHTML = "";
-      Object.keys(iptvChannels).forEach((cat, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = cat;
-        btn.onclick = () => {
-          document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          loadChannels(cat);
-        };
-        if (i === 0) btn.classList.add("active");
-        categoryTabs.appendChild(btn);
-      });
-      loadChannels(Object.keys(iptvChannels)[0]);
-    }
-
-    function loadChannels(category) {
-      channelList.innerHTML = "";
-      iptvChannels[category].forEach(channel => {
-        const item = document.createElement("div");
-        item.className = "channel-item";
-
-        if (channel.text) {
-          item.innerHTML = channel.text;
-          item.style.gridColumn = "1 / -1";
-        } else {
-          item.onclick = () => playChannel(channel.url);
-          const favBtn = document.createElement("button");
-          favBtn.innerHTML = '<i class="fas fa-eye"></i>';
-          favBtn.className = "favorite-btn";
-          favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
-          const nameRow = document.createElement("div");
-          nameRow.className = "channel-name";
-          nameRow.textContent = channel.name;
-          nameRow.appendChild(favBtn);
-          item.appendChild(nameRow);
+        function toggleNight() {
+            document.body.classList.toggle("night");
         }
 
-        channelList.appendChild(item);
-      });
-    }
+        function playChannel(url) {
+            errorMsg.style.display = "none";
 
-    function toggleFavorite(channel) {
-      // optional fitur favorit
-    }
+            if (url.includes("youtube.com")) {
+                video.style.display = "none";
+                youtube.style.display = "block";
+                youtube.src = url;
+                return;
+            }
 
-    loadCategories();
-  </script>
+            youtube.style.display = "none";
+            youtube.src = "";
+            video.style.display = "block";
+
+            if (Hls.isSupported()) {
+                if (hls) hls.destroy();
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) {
+                        errorMsg.style.display = "block";
+                    }
+                });
+            } else {
+                video.src = url;
+                video.onerror = () => {
+                    errorMsg.style.display = "block";
+                };
+            }
+
+            video.play().catch(() => {
+                errorMsg.style.display = "block";
+            });
+        }
+
+        function rotateFullscreen() {
+            if (!document.fullscreenElement) {
+                video.requestFullscreen().catch(err => {
+                    console.error(`Gagal masuk fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function loadCategories() {
+            categoryTabs.innerHTML = "";
+            Object.keys(iptvChannels).forEach((cat, i) => {
+                const btn = document.createElement("button");
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    loadChannels(cat);
+                };
+                if (i === 0) btn.classList.add("active");
+                categoryTabs.appendChild(btn);
+            });
+            loadChannels(Object.keys(iptvChannels)[0]);
+        }
+
+        function loadChannels(category) {
+            channelList.innerHTML = "";
+
+            if (category === "All Channel") {
+                // Buat tombol-tombol khusus untuk masing-masing m3u
+                iptvChannels["All Channel"].forEach((source) => {
+                    const m3uButton = document.createElement("button");
+                    m3uButton.textContent = ` ${source.name}`;
+                    m3uButton.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: #444; color: white; border: none; border-radius: 999px; cursor: pointer;";
+                    m3uButton.onclick = () => loadM3UChannels(source);
+                    channelList.appendChild(m3uButton);
+                });
+
+                // Fungsi untuk memuat channel dari m3u tertentu
+                function loadM3UChannels(source) {
+                    channelList.innerHTML = ""; // Kosongkan dulu
+
+                    const backBtn = document.createElement("button");
+                    backBtn.textContent = "← Kembali ke All Channel";
+                    backBtn.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: darkred; color: white; border: none; border-radius: 999px; cursor: pointer;";
+                    backBtn.onclick = () => loadChannels("All Channel");
+                    channelList.appendChild(backBtn);
+
+                    fetch(source.m3u)
+                        .then(res => res.text())
+                        .then(data => {
+                            const lines = data.split("\n");
+                            const channels = [];
+                            let currentName = "";
+
+                            lines.forEach(line => {
+                                if (line.startsWith("#EXTINF")) {
+                                    const match = line.match(/,(.*)$/);
+                                    currentName = match ? match[1].trim() : "Tanpa Nama";
+                                } else if (line.startsWith("http")) {
+                                    channels.push({ name: currentName, url: line.trim() });
+                                }
+                            });
+
+                            channels.forEach(c => {
+                                const item = document.createElement("div");
+                                item.className = "channel-item";
+                                item.onclick = () => playChannel(c.url);
+
+                                const favBtn = document.createElement("button");
+                                favBtn.innerHTML = '<i class="fas fa-television"></i>';
+                                favBtn.className = "favorite-btn";
+                                favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(c); };
+
+                                const nameRow = document.createElement("div");
+                                nameRow.className = "channel-name";
+                                nameRow.textContent = c.name;
+                                nameRow.appendChild(favBtn);
+                                item.appendChild(nameRow);
+                                channelList.appendChild(item);
+                            });
+                        })
+                        .catch(err => {
+                            const error = document.createElement("div");
+                            error.textContent = `Gagal memuat: ${source.name}`;
+                            error.style.color = "red";
+                            error.style.textAlign = "center";
+                            channelList.appendChild(error);
+                            console.error("Gagal load M3U:", err);
+                        });
+                }
+
+                return;
+            }
+
+            // Default render untuk kategori lain
+            iptvChannels[category].forEach(channel => {
+                const item = document.createElement("div");
+                item.className = "channel-item";
+
+                if (channel.text) {
+                    item.innerHTML = channel.text;
+                    item.style.gridColumn = "1 / -1";
+                } else {
+                    item.onclick = () => playChannel(channel.url);
+                    const favBtn = document.createElement("button");
+                    favBtn.innerHTML = '<i class="fas fa-television"></i>';
+                    favBtn.className = "favorite-btn";
+                    favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
+                    const nameRow = document.createElement("div");
+                    nameRow.className = "channel-name";
+                    nameRow.textContent = channel.name;
+                    nameRow.appendChild(favBtn);
+                    item.appendChild(nameRow);
+                }
+
+                channelList.appendChild(item);
+            });
+        }
+
+        function toggleFavorite(channel) {
+            // optional fitur favorit
+        }
+
+        loadCategories();
+
+        // Putar Rodja TV saat pertama kali membuka aplikasi
+        window.addEventListener("DOMContentLoaded", () => {
+            playChannel("https://rodjatv.com/rodjatv/live.m3u8");
+        });
+    </script>
 </body>
+
 </html>
