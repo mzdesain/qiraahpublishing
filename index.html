@@ -1,191 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qira'ah Publishing</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome (for icons) CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-    
-    <style>
-        /* Menggunakan font Inter sebagai default */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        /* Definisi warna custom untuk kemudahan penggunaan */
-        .bg-brand-primary { background-color: #272a5d; }
-        .text-brand-primary { color: #272a5d; }
-        .bg-brand-secondary { background-color: #caa036; }
-        .text-brand-secondary { color: #caa036; }
-        .border-brand-secondary { border-color: #caa036; }
-        
-        /* Efek hover pada tombol */
-        .cta-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-    </style>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Section 1: Header / Hero -->
-    <header class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
-        <div class="max-w-4xl">
-            <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">Qira'ah Publishing</h1>
-            <p class="mt-4 text-xl md:text-2xl font-semibold text-brand-secondary">Percetakan Islami dan Murah</p>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .bg-brand-primary { background-color: #272a5d; }
+    .text-brand-primary { color: #272a5d; }
+    .bg-brand-secondary { background-color: #caa036; }
+    .text-brand-secondary { color: #caa036; }
+    .border-brand-secondary { border-color: #caa036; }
+
+    .cta-button {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+
+  <!-- HEADER -->
+  <header class="h-screen min-h-[600px] bg-gray-700 bg-opacity-60 bg-blend-overlay flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
+    <div class="max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-white">Qira'ah Publishing</h1>
+      <p class="mt-4 text-xl md:text-2xl font-semibold text-brand-secondary">Percetakan Islami dan Murah</p>
+      <div class="mt-8">
+        <a href="#tentang" class="cta-button inline-block bg-white text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">Tentang Kami</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- TENTANG -->
+    <section id="tentang" class="py-16 md:py-24 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <!-- Gambar kiri -->
+          <div class="md:w-1/2">
+            <img src="https://i.imgur.com/PR8mrID.png" alt="Mockup Buku" />
+          </div>
+          <!-- Teks kanan -->
+          <div class="md:w-1/2 text-left">
+            <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Solusi Cetak dan Terbitkan Buku Anda</h2>
+            <p class="mt-6 text-base md:text-lg leading-relaxed">
+              Qira'ah Publishing adalah mitra terpercaya Anda dalam menerbitkan karya. Mulai dari layout, desain cover, ISBN, hingga cetak fisik. Kami juga menyediakan katalog buku-buku terbitan kami untuk dijual ke publik.
+            </p>
             <div class="mt-8">
-                <a href="#tentang" class="cta-button inline-block bg-white text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">
-                    Tentang Kami
-                </a>
+              <a href="#panduan" class="cta-button inline-block bg-brand-secondary text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">
+                Lihat Panduan Penerbitan
+              </a>
             </div>
+          </div>
         </div>
-    </header>
-
-    <main>
-
-        <!-- Section 2: Tentang -->
-        <section id="tentang" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <!-- Kolom Teks -->
-                    <div class="md:w-1/2 text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Solusi Cetak dan Terbitkan Buku Anda</h2>
-                        <p class="mt-6 text-base md:text-lg text-gray-800 leading-relaxed">
-                            Qira'ah Publishing adalah mitra terpercaya Anda dalam menerbitkan karya. Mulai dari layout, desain cover, ISBN, hingga cetak fisik. Kami juga menyediakan katalog buku-buku terbitan kami untuk dijual ke publik.
-                        </p>
-                        <div class="mt-8">
-                           <a href="#panduan" class="cta-button inline-block bg-brand-secondary text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">
-                                Lihat Panduan Penerbitan
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Kolom Gambar -->
-                    <div class="md:w-1/2 mt-8 md:mt-0">
-                        <img src="https://i.imgur.com/PR8mrID.png" alt="Buku terbitan Qira&#39;ah Publishing" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: Layanan -->
-        <section id="layanan" class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white">Layanan Kami</h2>
-                <div class="w-24 h-1 bg-white mx-auto mt-4 mb-12 rounded"></div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
-                    <!-- Kolom Layanan 1 -->
-                    <div class="bg-white/10 p-8 rounded-lg">
-                        <div class="flex items-start gap-4">
-                            <i class="fas fa-print text-4xl text-white mt-1"></i>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">Percetakan Buku</h3>
-                                <p class="mt-2 text-white/90">Cetak buku satuan hingga ribuan eksemplar dengan kualitas terbaik dan harga terjangkau.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Kolom Layanan 2 -->
-                    <div class="bg-white/10 p-8 rounded-lg">
-                        <div class="flex items-start gap-4">
-                             <i class="fas fa-id-card text-4xl text-white mt-1"></i>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">Penerbitan ISBN</h3>
-                                <p class="mt-2 text-white/90">Proses cepat dan legal dalam pengurusan ISBN melalui Qira'ah Publishing.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Anda bisa menambahkan kolom layanan baru di sini dengan format yang sama -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Panduan -->
-        <section id="panduan" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Langkah Mudah Menerbitkan Buku</h2>
-                    <p class="mt-2 text-lg text-gray-600">Ikuti panduan berikut</p>
-                    <div class="w-24 h-1 bg-brand-secondary mx-auto mt-4 mb-12 rounded"></div>
-                </div>
-
-                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                     <!-- Kolom Gambar -->
-                    <div class="md:w-1/2 order-last md:order-first mt-8 md:mt-0">
-                        <img src="https://i.imgur.com/PR8mrID.png" alt="Langkah menerbitkan buku" />
-                    </div>
-                    <!-- Kolom Poin Panduan -->
-                    <div class="md:w-1/2">
-                        <div class="space-y-6">
-                            <!-- Poin 1 -->
-                            <div class="flex items-start gap-4">
-                                <div class="flex-shrink-0 w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold text-lg">1</div>
-                                <div>
-                                    <h3 class="text-xl font-bold text-brand-primary">Kirim Naskah</h3>
-                                    <p class="mt-1 text-black">Kirimkan naskah Anda dalam bentuk dokumen Word ke email kami untuk proses layout.</p>
-                                </div>
-                            </div>
-                            <!-- Poin 2 -->
-                            <div class="flex items-start gap-4">
-                                <div class="flex-shrink-0 w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold text-lg">2</div>
-                                <div>
-                                    <h3 class="text-xl font-bold text-brand-primary">Proses Desain</h3>
-                                    <p class="mt-1 text-black">Tim kami akan membantu mendesain cover dan layout isi buku sesuai identitas penerbitan.</p>
-                                </div>
-                            </div>
-                             <!-- Anda bisa menambahkan poin baru di sini dengan format yang sama -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-    </main>
+      </div>
+    </section>
     
-    <!-- Section 5: Footer / Kontak -->
-    <footer id="kontak" class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center text-white py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-2xl md:text-3xl font-bold text-white">Tentang Kami</h2>
-            <p class="mt-4 max-w-2xl mx-auto text-white/80">
-                Qira'ah Publishing adalah rumah penerbitan independen yang membantu penulis dalam proses menerbitkan buku secara profesional dan berkualitas.
-            </p>
-            
-            <h2 class="text-2xl md:text-3xl text-white font-bold mt-12">Alamat</h2>
-            <p class="mt-4 text-white/80">
-                Jln. Literasi No. 17, Kota Buku, Indonesia
-            </p>
-            
-            <div class="mt-8">
-                <p class="font-semibold text-white text-lg">Hubungi Kami Melalui:</p>
-                <div class="flex justify-center gap-6 mt-4 text-white text-3xl">
-                    <a href="#" aria-label="Instagram" class="hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="WhatsApp" class="hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" aria-label="Website" class="hover:text-white transition-colors"><i class="fas fa-globe"></i></a>
+    <!-- SECTION: Layanan Kami -->
+<section id="layanan" class="py-16 md:py-24 bg-gray-700 bg-opacity-60 bg-blend-overlay text-white" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold">Layanan Kami</h2>
+    <div class="w-24 h-1 bg-brand-secondary mx-auto mt-4 mb-12 rounded"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left max-w-6xl mx-auto">
+      <!-- Layanan 1 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-print text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Percetakan Buku</h3>
+            <p class="mt-2 text-white/90">Cetak buku satuan hingga ribuan eksemplar dengan kualitas terbaik dan harga terjangkau.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Layanan 2 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-barcode text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Penerbitan ISBN</h3>
+            <p class="mt-2 text-white/90">Proses cepat dan legal dalam pengurusan ISBN melalui Qira'ah Publishing.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Layanan 3 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-book text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Katalog Buku Terbitan</h3>
+            <p class="mt-2 text-white/90">Temukan dan beli buku-buku berkualitas yang telah kami terbitkan.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Layanan 4 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-video text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Tutorial Penerbitan</h3>
+            <p class="mt-2 text-white/90">Panduan lengkap penerbitan buku dari awal hingga terbit tersedia untuk Anda.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Layanan 5 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-pencil-alt text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Layanan Desain</h3>
+            <p class="mt-2 text-white/90">Buat cover, layout isi, dan branding buku Anda terlihat profesional dan menarik.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Layanan 6 -->
+      <div class="bg-white/10 p-6 rounded-lg">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-shopping-cart text-3xl text-brand-secondary mt-1"></i>
+          <div>
+            <h3 class="text-xl font-bold">Jual Buku Anda</h3>
+            <p class="mt-2 text-white/90">Kami bantu Anda jualan lewat katalog, media sosial, dan jaringan reseller kami.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- PANDUAN -->
+    <section id="panduan" class="py-16 md:py-24 bg-gray-100">
+      <div class="container mx-auto px-6">
+        <div class="text-center">
+          <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Langkah Mudah Menerbitkan Buku</h2>
+          <p class="mt-2 text-lg text-gray-600">Ikuti panduan berikut</p>
+          <div class="w-24 h-1 bg-brand-secondary mx-auto mt-4 mb-12 rounded"></div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <!-- Gambar kiri -->
+          <div class="md:w-1/2">
+            <img src="https://i.imgur.com/PR8mrID.png" alt="Panduan Penerbitan" />
+          </div>
+          <!-- Poin kanan -->
+          <div class="md:w-1/2 text-left">
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold">1</div>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-primary">Kirim Naskah</h3>
+                  <p class="mt-1">Kirimkan naskah Anda dalam bentuk dokumen Word ke email kami untuk proses layout.</p>
                 </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold">2</div>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-primary">Proses Desain</h3>
+                  <p class="mt-1">Kami bantu mendesain cover dan layout isi buku sesuai identitas penerbitan.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold">3</div>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-primary">Urus ISBN</h3>
+                  <p class="mt-1">Kami bantu mengurus ISBN sebagai identitas resmi buku Anda.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold">4</div>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-primary">Cetak & Distribusi</h3>
+                  <p class="mt-1">Setelah buku siap, kami cetak dan bantu distribusikan ke pembaca.</p>
+                </div>
+              </div>
             </div>
-    </footer>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        // Script untuk smooth scroll saat tombol CTA di klik
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+  </main>
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+  <!-- FOOTER -->
+  <footer class="bg-brand-primary text-white py-12 text-center">
+    <div class="container mx-auto px-6">
+      <h2 class="text-2xl font-bold mb-4">Qira'ah Publishing</h2>
+      <p class="max-w-xl mx-auto mb-4">
+        Qira'ah Publishing adalah rumah penerbitan independen yang membantu penulis dalam proses menerbitkan buku secara profesional dan berkualitas.
+      </p>
+      <p>Alamat: Jln. Literasi No. 17, Kota Buku, Indonesia</p>
+      <div class="flex justify-center mt-6 gap-6 text-2xl">
+        <a href="#" class="hover:text-brand-secondary"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-brand-secondary"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="hover:text-brand-secondary"><i class="fas fa-globe"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
         });
-    </script>
+      });
+    });
+  </script>
 
-
-</!doctype>
+</body>
+</html>
