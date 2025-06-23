@@ -1,651 +1,191 @@
-<!DOCTYPE html>
-<html lang="id">
+<!doctype html>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nasyra TV</title>
-    <link rel="stylesheet" href="styles.css"> <!-- atau nama file CSS kamu -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (for icons) CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    
     <style>
-        :root {
-            --bg: #111;
-            --text: #fff;
-            --item: #1e1e1e;
-            --hover: #333;
-        }
-
-        body.night {
-            --bg: #fff;
-            --text: #000;
-            --item: #f2f2f2;
-            --hover: #ddd;
-        }
-
+        /* Menggunakan font Inter sebagai default */
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background: #007aff;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.4rem;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .donate-link {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1.6rem;
-            margin-right: 0.5rem;
-        }
-
-        .toggle-night {
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-            background: black;
-            display: block;
-        }
-
-        iframe {
-            display: none;
-        }
-
-        .fullscreen-btn-container {
-            text-align: center;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .fullscreen-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 8px;
-            background: #007aff;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .categories {
-            display: flex;
-            overflow-x: auto;
-            padding: 0.5rem;
-            background: var(--item);
-            position: sticky;
-            top: calc(100%);
-            z-index: 9;
-        }
-
-        .preview-container {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: var(--bg);
-            padding-bottom: 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .categories button {
-            margin-right: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: gold;
-            color: black;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .categories button.active {
-            background-color: #007aff;
-            color: white;
-        }
-
-        .channel-list {
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 1rem;
+            font-family: 'Inter', sans-serif;
         }
         
-        .channel-item {
-            background: var(--item);
-            padding: 0.8rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .channel-item:hover {
-            background: var(--hover);
-        }
-
-        .channel-name {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
-        }
-
-        .favorite-btn {
-            background: none;
-            border: none;
-            color: gold;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .tutorial-text {
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        .tutorial-text ol {
-            padding-left: 1.2rem;
-        }
-
-        .tutorial-text li {
-            margin-bottom: 0.7rem;
-        }
-
-        .channel-section {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 2rem;
-        }
+        /* Definisi warna custom untuk kemudahan penggunaan */
+        .bg-brand-primary { background-color: #272a5d; }
+        .text-brand-primary { color: #272a5d; }
+        .bg-brand-secondary { background-color: #caa036; }
+        .text-brand-secondary { color: #caa036; }
+        .border-brand-secondary { border-color: #caa036; }
         
-        @media (min-width:1024px) { 
-       .channel-list { grid-template-columns : repeat(auto-fill , minmax(250px ,1fr)); }  
-       header{font-size :1.6rem;} 
+        /* Efek hover pada tombol */
+        .cta-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
     </style>
-</head>
 
-<body>
-    <header>
-        <div class="header-left">
-            <a href="https://muzanni.my.id" target="_blank" class="donate-link"><i class="fas fa-television"></i></a>
-            NasyraTV
+
+
+    <!-- Section 1: Header / Hero -->
+    <header class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
+        <div class="max-w-4xl">
+            <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">Qira'ah Publishing</h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-brand-secondary">Percetakan Islami dan Murah</p>
+            <div class="mt-8">
+                <a href="#tentang" class="cta-button inline-block bg-white text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">
+                    Tentang Kami
+                </a>
+            </div>
         </div>
-        <button class="toggle-night" onclick="toggleNight()"><i class="fas fa-lightbulb"></i></button>
     </header>
 
-    <!-- Video Preview + Categories -->
-    <div class="preview-container">
-        <video id="videoPlayer" controls autoplay></video>
-        <div id="videoError" style="color: red; text-align: center; font-style: italic; font-family: sans-serif; font-size: small; font-weight: bold; margin-top: 0.5rem; display: none;">
-            Tunggu sebentar, jika tetap tidak bisa silakan pindah ke Saluran yang lain.
-        </div>
-        <iframe id="youtubePlayer" width="100%" height="480" frameborder="0" allowfullscreen></iframe>
+    <main>
 
-        <div class="fullscreen-btn-container">
-            <button class="fullscreen-btn" onclick="rotateFullscreen()">⛶ Fullscreen</button>
-        </div>
+        <!-- Section 2: Tentang -->
+        <section id="tentang" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <!-- Kolom Teks -->
+                    <div class="md:w-1/2 text-left">
+                        <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Solusi Cetak dan Terbitkan Buku Anda</h2>
+                        <p class="mt-6 text-base md:text-lg text-gray-800 leading-relaxed">
+                            Qira'ah Publishing adalah mitra terpercaya Anda dalam menerbitkan karya. Mulai dari layout, desain cover, ISBN, hingga cetak fisik. Kami juga menyediakan katalog buku-buku terbitan kami untuk dijual ke publik.
+                        </p>
+                        <div class="mt-8">
+                           <a href="#panduan" class="cta-button inline-block bg-brand-secondary text-brand-primary font-bold py-3 px-8 rounded-lg text-lg">
+                                Lihat Panduan Penerbitan
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Kolom Gambar -->
+                    <div class="md:w-1/2 mt-8 md:mt-0">
+                        <img src="https://i.imgur.com/PR8mrID.png" alt="Buku terbitan Qira&#39;ah Publishing" />
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class ="categories"id ="categoryTabs"></div >
-</div >
+        <!-- Section 3: Layanan -->
+        <section id="layanan" class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center;">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Layanan Kami</h2>
+                <div class="w-24 h-1 bg-white mx-auto mt-4 mb-12 rounded"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+                    <!-- Kolom Layanan 1 -->
+                    <div class="bg-white/10 p-8 rounded-lg">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-print text-4xl text-white mt-1"></i>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Percetakan Buku</h3>
+                                <p class="mt-2 text-white/90">Cetak buku satuan hingga ribuan eksemplar dengan kualitas terbaik dan harga terjangkau.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kolom Layanan 2 -->
+                    <div class="bg-white/10 p-8 rounded-lg">
+                        <div class="flex items-start gap-4">
+                             <i class="fas fa-id-card text-4xl text-white mt-1"></i>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Penerbitan ISBN</h3>
+                                <p class="mt-2 text-white/90">Proses cepat dan legal dalam pengurusan ISBN melalui Qira'ah Publishing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Anda bisa menambahkan kolom layanan baru di sini dengan format yang sama -->
+                </div>
+            </div>
+        </section>
 
-    <!-- Channel List Section -->
-     <div class="channel-section">
-       <div class="channel-list" id="channelList"></div> <!-- Daftar saluran akan muncul di sini -->
-   </div>
+        <!-- Section 4: Panduan -->
+        <section id="panduan" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Langkah Mudah Menerbitkan Buku</h2>
+                    <p class="mt-2 text-lg text-gray-600">Ikuti panduan berikut</p>
+                    <div class="w-24 h-1 bg-brand-secondary mx-auto mt-4 mb-12 rounded"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                     <!-- Kolom Gambar -->
+                    <div class="md:w-1/2 order-last md:order-first mt-8 md:mt-0">
+                        <img src="https://i.imgur.com/PR8mrID.png" alt="Langkah menerbitkan buku" />
+                    </div>
+                    <!-- Kolom Poin Panduan -->
+                    <div class="md:w-1/2">
+                        <div class="space-y-6">
+                            <!-- Poin 1 -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold text-lg">1</div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-brand-primary">Kirim Naskah</h3>
+                                    <p class="mt-1 text-black">Kirimkan naskah Anda dalam bentuk dokumen Word ke email kami untuk proses layout.</p>
+                                </div>
+                            </div>
+                            <!-- Poin 2 -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 bg-brand-secondary text-brand-primary flex items-center justify-center rounded-full font-bold text-lg">2</div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-brand-primary">Proses Desain</h3>
+                                    <p class="mt-1 text-black">Tim kami akan membantu mendesain cover dan layout isi buku sesuai identitas penerbitan.</p>
+                                </div>
+                            </div>
+                             <!-- Anda bisa menambahkan poin baru di sini dengan format yang sama -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Section 5: Footer / Kontak -->
+    <footer id="kontak" class="h-screen min-h-[600px] bg-gray-700 bg-blend-overlay bg-opacity-50 flex items-center justify-center text-center p-4" style="background-image: url('https://i.imgur.com/ybmyEXy.png'); background-size: cover; background-position: center text-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white">Tentang Kami</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-white/80">
+                Qira'ah Publishing adalah rumah penerbitan independen yang membantu penulis dalam proses menerbitkan buku secara profesional dan berkualitas.
+            </p>
+            
+            <h2 class="text-2xl md:text-3xl text-white font-bold mt-12">Alamat</h2>
+            <p class="mt-4 text-white/80">
+                Jln. Literasi No. 17, Kota Buku, Indonesia
+            </p>
+            
+            <div class="mt-8">
+                <p class="font-semibold text-white text-lg">Hubungi Kami Melalui:</p>
+                <div class="flex justify-center gap-6 mt-4 text-white text-3xl">
+                    <a href="#" aria-label="Instagram" class="hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="WhatsApp" class="hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" aria-label="Website" class="hover:text-white transition-colors"><i class="fas fa-globe"></i></a>
+                </div>
+            </div>
+    </footer>
 
     <script>
-        const iptvChannels = {
-            "Tutorial": [
-                {
-                    name: "Panduan Menonton",
-                    text: `
-                    <div class="tutorial-text">
-                        <ol>
-                            <li>Pastikan internet stabil.</li>
-                            <li>Pilih kategori, lalu pilih channel atau saluran yang ingin ditonton.</li>
-                            <li>Klik icon Lampu untuk mengganti tampilan (Gelap/Terang).</li>
-                            <li>Jika ingin menonton saluran dari kategori <strong>YouTube</strong>, pastikan Anda <strong>pause</strong> atau <strong>matikan</strong> saluran dari kategori lain terlebih dahulu.</li>
-                            <li>Begitu pula sebaliknya, jika sedang menonton saluran YouTube, <strong>pause</strong> atau <strong>hentikan</strong> terlebih dahulu sebelum pindah ke saluran kategori lain.</li>
-                            <li>Untuk kategori saluran sesama YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
-                            <li>Begitu juga kategori selain YouTube, Anda tidak perlu menghentikan saluran sebelumnya untuk berpindah.</li>
-                            <li>Jika tidak muncul tulisan yang berwarna merah, berarti saluran tersebut bisa diputar.</li>
-                            <li>Klik tombol <strong>Fullscreen</strong> untuk menonton dalam tampilan layar penuh (rotasi landscape).</li>
-                        </ol>
-                    </div>
-                    `
-                }
-            ],
-            "YouTube": [
-                { name: "Makkah", url: "https://www.youtube.com/embed/baxmdgM5-NM?si=IVHgf3trFu7fXwnB" },
-                { name: "SRB Official", url: "https://www.youtube.com/embed/zAM38eXb7DM?si=RAhEh6g0K3GYMTGZ" },
-                { name: "Madinah", url: "https://www.youtube.com/embed/c2LvGCQZojA?si=CtdAgCfWPOLK8nS4" }
-            ],
-            "Religi": [
-                { name: "Rodja TV", url: "https://rodjatv.com/rodjatv/live.m3u8" },
-                { name: "Al-Iman TV", url: "https://tv.aliman.id/aliman/live.m3u8" },
-                { name: "Wesal TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/wesaltv.m3u8" },
-                { name: "Al-Wafa Tarim", url: "https://ammedia.siar.us/ammedia/live/playlist.m3u8" },
-                { name: "Ashiil TV", url: "https://h1.intechmedia.net/intech/ch2.m3u8" },
-                { name: "Bin Baz TV", url: "https://h1.intechmedia.net/intech/ch22.m3u8" },
-                { name: "Izzah TV", url: "https://streaming.radiosalamjambi.com/izzahtv.m3u8" },
-                { name: "MQ TV", url: "https://5bf7b725107e5.streamlock.net/mqtv/mqtv/playlist.m3u8" },
-                { name: "Surau TV", url: "https://h1.intechmedia.net/intech/ch3.m3u8" },
-            ],
-            "Olahraga": [
-                { name: "BRI LIGA 1", url: "http://golive.yn.lt/live/liga1/01.m3u8" },
-                { name: "BRI LIGA 1", url: "http://golive.yn.lt/live/liga1/04.m3u8" },
-                { name: "LIGA 2 ID", url: "http://golive.yn.lt/live/liga2/07.m3u8" },
-                { name: "LIGA 2 ID", url: "http://golive.yn.lt/live/liga2/04.m3u8" },
-                { name: "UEFA NATION LEAGUE 02", url: "http://golive.yn.lt/live/unl/01.m3u8" },
-                { name: "UEFA NATION LEAGUE 03", url: "http://golive.yn.lt/live/unl/02.m3u8" },
-                { name: "FRIENDLY MATCH 01", url: "http://golive.yn.lt/live/friendly/01.m3u8" },
-                { name: "FRIENDLY MATCH 02", url: "http://golive.yn.lt/live/friendly/04.m3u8" },
-                { name: "FRIENDLY MATCH 03", url: "http://golive.yn.lt/live/friendly/05.m3u8" },
-                { name: "FRIENDLY MATCH 04", url: "http://golive.yn.lt/live/friendly/06.m3u8" },
-                { name: "FRIENDLY MATCH 05", url: "http://golive.yn.lt/live/friendly/10.m3u8" },
-                { name: "AFC U17 01", url: "http://golive.yn.lt/live/afc/01.m3u8" },
-                { name: "AFC U17 02", url: "http://golive.yn.lt/live/afc/02.m3u8" },
-                { name: "AFC U17 03", url: "http://golive.yn.lt/live/afc/03.m3u8" },
-                { name: "TVRI Sports HD", url: "http://wpc.d1627.nucdn.net/80D1627/o-tvri/Content/HLS/Live/Channel(TVRI4)/index.m3u8" },
-                { name: "Barca TV", url: "http://clientsportals.com:2095/live/eSN1tfXB/f6QW2ugz/48659.m3u8" },
-                { name: "Fenerbahce TV", url: "http://iptvmasterlink.dyndns.org:8080/FbTv/playlist.m3u8" },
-                { name: "Galatasaray TV", url: "https://owifavo5.rocketcdn.com/gstv/gstv.smil/chunklist.m3u8" },
-                { name: "Persija TV", url: "https://bravo.kugo.id/persijatv/udp.stream/playlist.m3u8" },
-                { name: "Porto Canal", url: "https://streamer-a03.videos.sapo.pt/live/portocanal/playlist.m3u8" },
-                { name: "MU TV", url: "https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8" },
-                { name: "TVRI Sport", url: "https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD.m3u8" },
-                { name: "beIN SPORTS XTRA en Espanol", url: "https://bein-esp-xumo.amagi.tv/playlist.m3u8" },
-                { name: "Bahrain Sport 1", url: "https://5c7b683162943.streamlock.net/live/ngrp:sportsone_all/playlist.m3u8" },
-                { name: "Bahrain Sport 2", url: "https://5c7b683162943.streamlock.net/live/ngrp:bahrainsportstwo_all/playlist.m3u8" },
-                { name: "Zoy TV Sport 1", url: "https://fl1004.bozztv.com/ssh101/zoytvsports/index.m3u8" },
-                { name: "Zoy TV Sport 2", url: "https://fl1004.bozztv.com/ssh101/zoytvsports2/index.m3u8" },
-                { name: "Zoy TV Sport 3", url: "https://fl1004.bozztv.com/ssh101/zoytvsports3/index.m3u8" },
-                { name: "Zoy TV Sport 4", url: "https://fl1004.bozztv.com/ssh101/zoytvsports4/index.m3u8" },
-                { name: "Zoy TV Sport 5", url: "https://fl1004.bozztv.com/ssh101/zoytvsports5/index.m3u8" },
-                { name: "All Sports", url: "https://5cf4a2c2512a2.streamlock.net/dgrau/dgrau/playlist.m3u8" },
-                { name: "SR: Supersport 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/406.m3u8" },
-                { name: "SR: Supersport 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/405.m3u8" },
-                { name: "SR: Arenasport 5 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/404.m3u8" },
-                { name: "SR: Arenasport 4 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/403.m3u8" },
-                { name: "SR: Arenasport 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/402.m3u8" },
-                { name: "EX-YU: Arena sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/401.m3u8" },
-                { name: "SR: Arenasport 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/400.m3u8" },
-                { name: "RO: Digi Sport 4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/4484.m3u8" },
-                { name: "RO: Digi Sport 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/4483.m3u8" },
-                { name: "RO: Digi Sport 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/4482.m3u8" },
-                { name: "RO: Digi Sport 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/4481.m3u8" },
-                { name: "Latino: Fox Sports 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5183.m3u8" },
-                { name: "Latino: Fox Sports", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5184.m3u8" },
-                { name: "CZ: Sport 5", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3812.m3u8" },
-                { name: "CZ: Sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3813.m3u8" },
-                { name: "CZ: Sport 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3814.m3u8" },
-                { name: "CZ: Nova Sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3804.m3u8" },
-                { name: "BR: SPORT TV 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5317.m3u8" },
-                { name: "BR: SPORT TV 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5318.m3u8" },
-                { name: "BR: Fox Sports 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5320.m3u8" },
-                { name: "BR: FOX Sports 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5322.m3u8" },
-                { name: "BR: ESPN HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5327.m3u8" },
-                { name: "BR: ESPN Brasil", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5328.m3u8" },
-                { name: "AZ: SETANTA SPORTS PLUS FHD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5478.m3u8" },
-                { name: "AZ: SETANTA SPORTS EURASIA FHD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5479.m3u8" },
-                { name: "AR VIP: Bein Sport 1 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5986.m3u8" },
-                { name: "AR VIP: Bein Sport 10 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5995.m3u8" },
-                { name: "AR VIP: Bein Sport 11 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5996.m3u8" },
-                { name: "AR VIP: Bein Sport 12 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5997.m3u8" },
-                { name: "AR VIP: Bein Sport 2 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5987.m3u8" },
-                { name: "AR VIP: Bein Sport 3 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5988.m3u8" },
-                { name: "AR VIP: Bein Sport 4 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5989.m3u8" },
-                { name: "AR VIP: Bein Sport 5 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5990.m3u8" },
-                { name: "AR VIP: Bein Sport 6 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5991.m3u8" },
-                { name: "AR VIP: Bein Sport 7 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5992.m3u8" },
-                { name: "AR VIP: Bein Sport 8 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5993.m3u8" },
-                { name: "AR VIP: Bein Sport 9 HD (Backup)", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5994.m3u8" },
-                { name: "PL: CANAL SPORT HD 1080P", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6282.m3u8" },
-                { name: "PL: CANAL SPORTS 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6265.m3u8" },
-                { name: "PL: ELEVEN SPORTS HD 1080P", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6279.m3u8" },
-                { name: "PL: Eleven Sports FHD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6287.m3u8" },
-                { name: "PL: Eurosport 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6286.m3u8" },
-                { name: "PL: Fightbox FHD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6285.m3u8" },
-                { name: "PL: POLSAT SPORTS", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6251.m3u8" },
-                { name: "PL: Polsat Sport Extra", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6250.m3u8" },
-                { name: "SLO: SPORT TV 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6842.m3u8" },
-                { name: "SLO: SPORT TV 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6843.m3u8" },
-                { name: "SLO: SPORT TV 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6844.m3u8" },
-                { name: "SLO: SPORTKLUB 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6845.m3u8" },
-                { name: "SLO: SPORTKLUB 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6846.m3u8" },
-                { name: "SLO: SPORTKLUB 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6847.m3u8" },
-                { name: "SLO: SPORTKLUB 4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6848.m3u8" },
-                { name: "PL: Extreme Sports 1080P", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6882.m3u8" },
-                { name: "AL: AL K SPORT1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7369.m3u8" },
-                { name: "AL: AL K SPORT2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7370.m3u8" },
-                { name: "AL: AL K SPORT3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7371.m3u8" },
-                { name: "AL: AL K SPORT4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7372.m3u8" },
-                { name: "BR: Sport TV", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7331.m3u8" },
-                { name: "BR: Sport TV2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7330.m3u8" },
-                { name: "BR: Sport TV3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7329.m3u8" },
-                { name: "AL: Super Sport 4 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/340.m3u8" },
-                { name: "AL: Super Sport 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/339.m3u8" },
-                { name: "AL: Super Sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/338.m3u8" },
-                { name: "AL: Super Sport 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/337.m3u8" },
-                { name: "AL: Tring Sport 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3367.m3u8" },
-                { name: "AL: Tring Sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3368.m3u8" },
-                { name: "AL: Tring 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3458.m3u8" },
-                { name: "AL: Tele Sport", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3454.m3u8" },
-                { name: "AL: TRING SPORT 4 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3395.m3u8" },
-                { name: "AL: TRING SPORT 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3396.m3u8" },
-                { name: "AL: SuperSport 6", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3403.m3u8" },
-                { name: "AL: SuperSport 5", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3404.m3u8" },
-                { name: "AL: SuperSport 4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3405.m3u8" },
-                { name: "AL: SuperSport 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3406.m3u8" },
-                { name: "AL: Super Sport Kosovo 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2127.m3u8" },
-                { name: "AL: Super Sport Kosovo 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2128.m3u8" },
-                { name: "AL: Super Sport 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2129.m3u8" },
-                { name: "AL: Super Sport 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2130.m3u8" },
-                { name: "AR: AD Sports 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/1049.m3u8" },
-                { name: "AR: Abu Dhabi Sports 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3386.m3u8" },
-                { name: "AR: beIN Sports 9 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/38.m3u8" },
-                { name: "AR: beIN Sports 8 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/37.m3u8" },
-                { name: "AR: beIN Sports 7 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/36.m3u8" },
-                { name: "AR: beIN Sports 6 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/35.m3u8" },
-                { name: "AR: beIN Sports 5 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/34.m3u8" },
-                { name: "AR: beIN Sports 4 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/33.m3u8" },
-                { name: "AR: beIN Sports 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/32.m3u8" },
-                { name: "AR: beIN Sports 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/31.m3u8" },
-                { name: "AR: beIN Sports 13 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/42.m3u8" },
-                { name: "AR: beIN Sports 12 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/41.m3u8" },
-                { name: "AR: beIN Sports 11 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/40.m3u8" },
-                { name: "AR: beIN Sports 10 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/39.m3u8" },
-                { name: "AR: beIN Sports 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/30.m3u8" },
-                { name: "AR: beIN SPorts", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/29.m3u8" },
-                { name: "AR: OSN Alkass Sport 4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3390.m3u8" },
-                { name: "AR: OSN Alkass Sport 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3389.m3u8" },
-                { name: "AR: OSN Alkass Sport 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3387.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) 10 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6939.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) 8 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6937.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) 9 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6938.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6859.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6860.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6861.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 4", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6862.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 5", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6863.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 6", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6864.m3u8" },
-                { name: "VIP AR: BEIN SPORT (Backup2) HD 7", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6865.m3u8" },
-                { name: "VIP AR: OSN Sports 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6006.m3u8" },
-                { name: "VIP AR: OSN Abu Dhabi Sports 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/6030.m3u8" },
-                { name: "BG: Diema Spor 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7119.m3u8" },
-                { name: "BG: Diema Spor 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7118.m3u8" },
-                { name: "DK: TV3 SPORT 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2970.m3u8" },
-                { name: "DK: TV 2 ZULU", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3096.m3u8" },
-                { name: "DK: TV 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2977.m3u8" },
-                { name: "DK: TV 3 SPORT 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3094.m3u8" },
-                { name: "DK: TV 3 SPORT 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3093.m3u8" },
-                { name: "DK: TV 2 NEWS", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2974.m3u8" },
-                { name: "DK: TV3 Denmark", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2972.m3u8" },
-                { name: "DK: TV3 SPORT 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/2969.m3u8" },
-                { name: "DK: TV 2 SPORT", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3097.m3u8" },
-                { name: "SW: Teleclub Sport 1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7311.m3u8" },
-                { name: "SW: Teleclub Sport 1 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7310.m3u8" },
-                { name: "SW: Teleclub Sport 2 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7309.m3u8" },
-                { name: "SW: Teleclub Sport 2 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7308.m3u8" },
-                { name: "SW: Teleclub Sport 3 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7307.m3u8" },
-                { name: "SW: Teleclub Sport 3 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/7306.m3u8" },
-                { name: "EX-YU: Sport Klub 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3605.m3u8" },
-                { name: "EX-YU: Sport Klub 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3604.m3u8" },
-                { name: "EX-YU: Sport Klub 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3603.m3u8" },
-                { name: "EX-YU: SPORTKLUB 4 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3602.m3u8" },
-                { name: "EX-YU: SPORTKLUB 5 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3601.m3u8" },
-                { name: "EX-YU: SPORTKLUB 6 SD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3600.m3u8" },
-                { name: "FR: Bein Sport Max 9 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5622.m3u8" },
-                { name: "FR: Bein Sport Max 8", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5621.m3u8" },
-                { name: "FR: Bein Sport Max 7", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5620.m3u8" },
-                { name: "FR: Bein Sport Max 6", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5619.m3u8" },
-                { name: "FR: Bein Sport Max 5", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5618.m3u8" },
-                { name: "FR: Bein Sport Max 10", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/5623.m3u8" },
-                { name: "FR: beINS PORTS 2HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/445.m3u8" },
-                { name: "FR: beIN SPORTS1 HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/444.m3u8" },
-                { name: "FR: beIN SPORTS 3HD", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/446.m3u8" },
-                { name: "FR: RMC 1", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3715.m3u8" },
-                { name: "FR: SFR: Sport 2", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3713.m3u8" },
-                { name: "FR: SFR: Sport 3", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/3714.m3u8" },
-                { name: "sport iptv pastebin", url: "https://pastebin.com/raw/cUctVyQ6" }
-            ],
-            "Berita": [
-                { name: "Garuda TV", url: "http://stream.garuda.tv/live/garudatv/playlist.m3u8" },
-                { name: "Nusantara", url: "https://nusantaratv.siar.us/nusantaratv/live/chunks.m3u8" },
-                { name: "RRI Net", url: "http://iptv-line.com:7899/live/caribbeanroots25-restream/DCPMNO4o/407.m3u8" },
-                { name: "Celebes TV", url: "https://ams.juraganstreaming.com:5443/LiveApp/streams/celebesmedia.m3u8" },
-                { name: "BeritaSatu", url: "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8" }
-            ],
-            "All Channel": [
-                {
-                    name: "Playlist 1",
-                    m3u: "https://iptv-org.github.io/iptv/languages/ara.m3u"
-                },
-                {
-                    name: "Playlist 2",
-                    m3u: "https://raw.githubusercontent.com/El-asri-kimo/forever/main/iptv.m3u"
-                },
-                {
-                    name: "Playlist 3",
-                    m3u: "https://raw.githubusercontent.com/emonnaja/indonesian-IPTV/refs/heads/main/index.m3u"
-                },
-                {
-                    name: "Playlist 4",
-                    m3u: "https://raw.githubusercontent.com/TVcrack/tontonan/main/S%20(2).m3u"
-                },
-                {
-                    name: "Playlist 5",
-                    m3u: "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
-                },
-                {
-                    name: "Playlist 6",
-                    m3u: "https://iptv-org.github.io/iptv/index.m3u"
-                },
-            ],
-            "Lainnya": [
-                { name: "Kesehatan TV", url: "https://5bf7b725107e5.streamlock.net/tvkesehatan/tvkesehatan/playlist.m3u" },
-                { name: "Inspira TV", url: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8" },   
-            ],
-        };
+        // Script untuk smooth scroll saat tombol CTA di klik
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        const video = document.getElementById("videoPlayer");
-        const youtube = document.getElementById("youtubePlayer");
-        const categoryTabs = document.getElementById("categoryTabs");
-        const channelList = document.getElementById("channelList");
-        const errorMsg = document.getElementById("videoError");
-        let hls;
-
-        function toggleNight() {
-            document.body.classList.toggle("night");
-        }
-
-        function playChannel(url) {
-            errorMsg.style.display = "none";
-
-            if (url.includes("youtube.com")) {
-                video.style.display = "none";
-                youtube.style.display = "block";
-                youtube.src = url;
-                return;
-            }
-
-            youtube.style.display = "none";
-            youtube.src = "";
-            video.style.display = "block";
-
-            if (Hls.isSupported()) {
-                if (hls) hls.destroy();
-                hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.ERROR, function (event, data) {
-                    if (data.fatal) {
-                        errorMsg.style.display = "block";
-                    }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
-            } else {
-                video.src = url;
-                video.onerror = () => {
-                    errorMsg.style.display = "block";
-                };
-            }
-
-            video.play().catch(() => {
-                errorMsg.style.display = "block";
             });
-        }
-
-        function rotateFullscreen() {
-            if (!document.fullscreenElement) {
-                video.requestFullscreen().catch(err => {
-                    console.error(`Gagal masuk fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        function loadCategories() {
-            categoryTabs.innerHTML = "";
-            Object.keys(iptvChannels).forEach((cat, i) => {
-                const btn = document.createElement("button");
-                btn.textContent = cat;
-                btn.onclick = () => {
-                    document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-                    loadChannels(cat);
-                };
-                if (i === 0) btn.classList.add("active");
-                categoryTabs.appendChild(btn);
-            });
-            loadChannels(Object.keys(iptvChannels)[0]);
-        }
-
-        function loadChannels(category) {
-            channelList.innerHTML = "";
-
-            if (category === "All Channel") {
-                // Buat tombol-tombol khusus untuk masing-masing m3u
-                iptvChannels["All Channel"].forEach((source) => {
-                    const m3uButton = document.createElement("button");
-                    m3uButton.textContent = ` ${source.name}`;
-                    m3uButton.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: #444; color: white; border: none; border-radius: 999px; cursor: pointer;";
-                    m3uButton.onclick = () => loadM3UChannels(source);
-                    channelList.appendChild(m3uButton);
-                });
-
-                // Fungsi untuk memuat channel dari m3u tertentu
-                function loadM3UChannels(source) {
-                    channelList.innerHTML = ""; // Kosongkan dulu
-
-                    const backBtn = document.createElement("button");
-                    backBtn.textContent = "← Kembali ke All Channel";
-                    backBtn.style = "margin-bottom: 10px; padding: 0.4rem 1rem; background: darkred; color: white; border: none; border-radius: 999px; cursor: pointer;";
-                    backBtn.onclick = () => loadChannels("All Channel");
-                    channelList.appendChild(backBtn);
-
-                    fetch(source.m3u)
-                        .then(res => res.text())
-                        .then(data => {
-                            const lines = data.split("\n");
-                            const channels = [];
-                            let currentName = "";
-
-                            lines.forEach(line => {
-                                if (line.startsWith("#EXTINF")) {
-                                    const match = line.match(/,(.*)$/);
-                                    currentName = match ? match[1].trim() : "Tanpa Nama";
-                                } else if (line.startsWith("http")) {
-                                    channels.push({ name: currentName, url: line.trim() });
-                                }
-                            });
-
-                            channels.forEach(c => {
-                                const item = document.createElement("div");
-                                item.className = "channel-item";
-                                item.onclick = () => playChannel(c.url);
-
-                                const favBtn = document.createElement("button");
-                                favBtn.innerHTML = '<i class="fas fa-television"></i>';
-                                favBtn.className = "favorite-btn";
-                                favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(c); };
-
-                                const nameRow = document.createElement("div");
-                                nameRow.className = "channel-name";
-                                nameRow.textContent = c.name;
-                                nameRow.appendChild(favBtn);
-                                item.appendChild(nameRow);
-                                channelList.appendChild(item);
-                            });
-                        })
-                        .catch(err => {
-                            const error = document.createElement("div");
-                            error.textContent = `Gagal memuat: ${source.name}`;
-                            error.style.color = "red";
-                            error.style.textAlign = "center";
-                            channelList.appendChild(error);
-                            console.error("Gagal load M3U:", err);
-                        });
-                }
-
-                return;
-            }
-
-            // Default render untuk kategori lain
-            iptvChannels[category].forEach(channel => {
-                const item = document.createElement("div");
-                item.className = "channel-item";
-
-                if (channel.text) {
-                    item.innerHTML = channel.text;
-                    item.style.gridColumn = "1 / -1";
-                } else {
-                    item.onclick = () => playChannel(channel.url);
-                    const favBtn = document.createElement("button");
-                    favBtn.innerHTML = '<i class="fas fa-television"></i>';
-                    favBtn.className = "favorite-btn";
-                    favBtn.onclick = e => { e.stopPropagation(); toggleFavorite(channel); };
-                    const nameRow = document.createElement("div");
-                    nameRow.className = "channel-name";
-                    nameRow.textContent = channel.name;
-                    nameRow.appendChild(favBtn);
-                    item.appendChild(nameRow);
-                }
-
-                channelList.appendChild(item);
-            });
-        }
-
-        function toggleFavorite(channel) {
-            // optional fitur favorit
-        }
-
-        loadCategories();
-
-        // Putar Rodja TV saat pertama kali membuka aplikasi
-        window.addEventListener("DOMContentLoaded", () => {
-            playChannel("https://rodjatv.com/rodjatv/live.m3u8");
         });
     </script>
-</body>
 
-</html>
+
+</!doctype>
