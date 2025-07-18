@@ -6,14 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Qira'ah Publishing</title>
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -53,14 +50,40 @@
 
     /* Helper class untuk scroll smooth */
     html {
-        scroll-behavior: smooth;
+      scroll-behavior: smooth;
     }
   </style>
 </head>
 
 <body class="text-gray-800">
 
-  <!-- HEADER -->
+  <nav id="navbar" class="bg-brand-primary text-white py-4 px-6 sticky top-0 z-50 shadow-lg transition-all duration-300">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold hover:text-brand-secondary transition-colors">Qira'ah Publishing</a>
+
+      <ul class="hidden md:flex items-center space-x-8">
+        <li><a href="#tentang" class="font-semibold hover:text-brand-secondary transition-colors">Tentang</a></li>
+        <li><a href="#layanan" class="font-semibold hover:text-brand-secondary transition-colors">Layanan</a></li>
+        <li><a href="#panduan" class="font-semibold hover:text-brand-secondary transition-colors">Panduan</a></li>
+        <li><a href="#kontak" class="font-semibold hover:text-brand-secondary transition-colors">Kontak</a></li>
+      </ul>
+
+      <button id="mobile-menu-button" class="md:hidden text-2xl z-20">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu"
+      class="hidden md:hidden absolute top-0 left-0 w-full h-screen bg-brand-primary/95 backdrop-blur-sm pt-24">
+      <ul class="flex flex-col items-center space-y-8">
+        <li><a href="#tentang" class="text-xl font-semibold hover:text-brand-secondary transition-colors">Tentang</a></li>
+        <li><a href="#layanan" class="text-xl font-semibold hover:text-brand-secondary transition-colors">Layanan</a></li>
+        <li><a href="#panduan" class="text-xl font-semibold hover:text-brand-secondary transition-colors">Panduan</a></li>
+        <li><a href="#kontak" class="text-xl font-semibold hover:text-brand-secondary transition-colors">Kontak</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <header
     class="bg-brand-primary text-white py-12 text-center flex items-center justify-center min-h-[50vh]"
     style="background-image: url('https://ik.imagekit.io/jbtv/HEADER%20WEB.png?updatedAt=1752038870445'); background-size: cover; background-position: center;">
@@ -76,16 +99,13 @@
 
   <main>
 
-    <!-- TENTANG -->
     <section id="tentang" class="py-16 md:py-24 bg-white">
       <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          <!-- Gambar kiri -->
           <div class="md:w-1/2">
             <img src="https://ik.imagekit.io/jbtv/IMAGE%20WEB%201.png?updatedAt=1752039074788" alt="Mockup Buku" class="rounded-lg"/>
           </div>
 
-          <!-- Teks kanan -->
           <div class="md:w-1/2 text-left">
             <h2 class="text-3xl md:text-4xl font-bold text-brand-primary">Solusi Cetak dan Terbitkan Buku Anda</h2>
             <p class="mt-6 text-base md:text-lg leading-relaxed">
@@ -102,7 +122,6 @@
       </div>
     </section>
 
-    <!-- SECTION: Layanan Kami -->
     <section id="layanan" class="py-16 md:py-24 bg-gray-700 bg-opacity-60 bg-blend-overlay text-white"
       style="background-image: url('https://ik.imagekit.io/jbtv/HEADER%20WEB.png?updatedAt=1752038870445'); background-size: cover; background-position: center;">
       <div class="container mx-auto px-6 text-center">
@@ -110,7 +129,6 @@
         <div class="w-24 h-1 bg-brand-secondary mx-auto mt-4 mb-12 rounded"></div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left max-w-6xl mx-auto">
-          <!-- Layanan Card -->
           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-print text-3xl text-brand-secondary mt-1"></i>
@@ -121,8 +139,7 @@
               </div>
             </div>
           </div>
-           <!-- Layanan Card -->
-          <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-barcode text-3xl text-brand-secondary mt-1"></i>
               <div>
@@ -132,8 +149,7 @@
               </div>
             </div>
           </div>
-           <!-- Layanan Card -->
-          <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-book text-3xl text-brand-secondary mt-1"></i>
               <div>
@@ -142,7 +158,6 @@
               </div>
             </div>
           </div>
-          <!-- Layanan Card -->
           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-video text-3xl text-brand-secondary mt-1"></i>
@@ -153,7 +168,6 @@
               </div>
             </div>
           </div>
-          <!-- Layanan Card -->
           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-pencil-alt text-3xl text-brand-secondary mt-1"></i>
@@ -164,8 +178,7 @@
               </div>
             </div>
           </div>
-           <!-- Layanan Card -->
-          <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+           <div class="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
             <div class="flex items-start gap-4">
               <i class="fas fa-shopping-cart text-3xl text-brand-secondary mt-1"></i>
               <div>
@@ -180,7 +193,6 @@
     </section>
 
 
-    <!-- PANDUAN -->
     <section id="panduan" class="py-16 md:py-24 bg-gray-100">
       <div class="container mx-auto px-6">
         <div class="text-center">
@@ -190,15 +202,12 @@
         </div>
 
         <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          <!-- Gambar kiri -->
           <div class="md:w-1/2">
             <img src="https://ik.imagekit.io/jbtv/IMAGE%20WEB%201.png?updatedAt=1752039074788" alt="Panduan Penerbitan" class="rounded-lg" />
           </div>
 
-          <!-- Poin kanan -->
           <div class="md:w-1/2 text-left">
             <div class="space-y-6">
-              <!-- Step 1 -->
               <div class="flex items-start gap-4">
                 <div
                   class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
@@ -208,30 +217,27 @@
                   <p class="mt-1">Kirimkan naskah Anda dalam bentuk dokumen Word ke email kami untuk proses layout.</p>
                 </div>
               </div>
-              <!-- Step 2 -->
               <div class="flex items-start gap-4">
                 <div
-                   class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
+                  class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
                   2</div>
                 <div>
                   <h3 class="text-xl font-bold text-brand-primary">Proses Desain</h3>
                   <p class="mt-1">Kami bantu mendesain cover dan layout isi buku sesuai identitas penerbitan.</p>
                 </div>
               </div>
-              <!-- Step 3 -->
               <div class="flex items-start gap-4">
                 <div
-                   class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
+                  class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
                   3</div>
                 <div>
                   <h3 class="text-xl font-bold text-brand-primary">Urus ISBN</h3>
                   <p class="mt-1">Kami bantu mengurus ISBN sebagai identitas resmi buku Anda.</p>
                 </div>
               </div>
-              <!-- Step 4 -->
               <div class="flex items-start gap-4">
                 <div
-                   class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
+                  class="w-8 h-8 bg-brand-secondary text-brand-primary flex-shrink-0 flex items-center justify-center rounded-full font-bold">
                   4</div>
                 <div>
                   <h3 class="text-xl font-bold text-brand-primary">Cetak & Distribusi</h3>
@@ -244,7 +250,6 @@
       </div>
     </section>
 
-    <!-- KONTAK -->
     <footer id="kontak"
       class="bg-brand-primary text-white py-12"
       style="background-image: url('https://ik.imagekit.io/jbtv/HEADER%20WEB.png?updatedAt=1752038870445'); background-size: cover; background-position: center;">
@@ -259,12 +264,10 @@
       </div>
     </footer>
 
-    <!-- Footer Copyright -->
     <div class="py-4 text-center text-sm text-brand-primary font-semibold" style="background-color: #caa036;">
       <p>&copy; 2025 Qira'ah Publishing. All Rights Reserved.</p>
     </div>
 
-    <!-- WA Melayang -->
     <a href="https://wa.me/6285251675143?text=Assalamualaikum,%20saya%20tertarik%20dengan%20layanan%20Qira'ah%20Publishing."
       target="_blank"
       class="fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg z-50 transition-transform duration-300 hover:scale-110"
@@ -272,13 +275,11 @@
       <i class="fab fa-whatsapp text-4xl"></i>
     </a>
 
-    <!-- Tombol Scroll Keatas -->
     <button id="scrollTopBtn"
       class="hidden fixed bottom-24 right-6 w-14 h-14 bg-brand-secondary text-white rounded-full flex items-center justify-center shadow-lg z-40 transition-opacity duration-300 hover:bg-opacity-80">
       <i class="fas fa-arrow-up text-xl"></i>
     </button>
 
-    <!-- Form Pemesanan (Modal) -->
     <div id="form-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
       <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 md:p-8 relative">
         <button id="close-modal-btn"
@@ -332,17 +333,52 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+      // --- Script untuk Menu Navigasi Mobile ---
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+      const menuIcon = mobileMenuButton.querySelector('i');
+
+      if (mobileMenuButton && mobileMenu && menuIcon) {
+          mobileMenuButton.addEventListener('click', () => {
+              mobileMenu.classList.toggle('hidden');
+              // Ganti ikon hamburger menjadi 'X' saat menu terbuka
+              if (mobileMenu.classList.contains('hidden')) {
+                  menuIcon.classList.remove('fa-times');
+                  menuIcon.classList.add('fa-bars');
+              } else {
+                  menuIcon.classList.remove('fa-bars');
+                  menuIcon.classList.add('fa-times');
+              }
+          });
+
+          // Tutup menu mobile ketika salah satu link di-klik
+          mobileMenuLinks.forEach(link => {
+              link.addEventListener('click', () => {
+                  mobileMenu.classList.add('hidden');
+                  menuIcon.classList.remove('fa-times');
+                  menuIcon.classList.add('fa-bars');
+              });
+          });
+      }
+
+
       // --- Script untuk Navigasi Smooth Scroll (di-handle oleh CSS) ---
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
           const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-             });
+          // Pastikan targetId bukan hanya '#' agar tidak error
+          if (targetId.length > 1) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+            }
+          } else if (targetId === '#') {
+             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         });
       });
